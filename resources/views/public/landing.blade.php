@@ -14,8 +14,8 @@
     {{-- ESTRUTURA DE DADOS (SCHEMA.ORG) --}}
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "Organization",
+      "@@context": "https://schema.org",
+      "@@type": "Organization",
       "name": "FYNECINE",
       "url": "{{ url('/') }}",
       "logo": "{{ asset('img/logo.png') }}",
@@ -24,11 +24,11 @@
     </script>
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
+      "@@context": "https://schema.org",
+      "@@type": "WebSite",
       "url": "{{ url('/') }}",
       "potentialAction": {
-        "@type": "SearchAction",
+        "@@type": "SearchAction",
         "target": "{{ url('/pesquisa') }}?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }

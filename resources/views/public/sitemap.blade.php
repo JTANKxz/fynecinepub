@@ -24,21 +24,25 @@
 
     {{-- Filmes Individuais --}}
     @foreach($movies as $movie)
+    @if($movie->slug)
     <url>
         <loc>{{ route('movies.show', $movie->slug) }}</loc>
         <lastmod>{{ $movie->updated_at->toAtomString() }}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
+    @endif
     @endforeach
 
     {{-- Séries Individuais --}}
     @foreach($series as $serie)
+    @if($serie->slug)
     <url>
         <loc>{{ route('series.show', $serie->slug) }}</loc>
         <lastmod>{{ $serie->updated_at->toAtomString() }}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
+    @endif
     @endforeach
 </urlset>
