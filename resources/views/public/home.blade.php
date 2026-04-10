@@ -23,13 +23,15 @@
                                     $type = $slider->content_type === 'movie' ? 'Filme' : 'Série';
                                     $image = $slider->image_url ?? $content->backdrop_url ?? $content->poster_url;
 
-                                    if ($image && strpos($image, '/') === 0)
-                                        $image = 'https://image.tmdb.org/t/p/original' . $image;
+                                    if ($image && strpos($image, '/') === 0) {
+                                        // 🔥 TAMANHO CERTO PRO HERO
+                                        $image = 'https://image.tmdb.org/t/p/w1280' . $image;
+                                    }
                                 @endphp
                                 <div class="slide {{ $index === 0 ? 'active' : '' }}">
 
                                     {{-- IMAGEM --}}
-                                    <img src="{{ $image }}" alt="{{ $title }}" class="slide-bg" width="1920" height="1080"
+                                    <img src="{{ $image }}" alt="{{ $title }}" class="slide-bg" width="1280" height="720"
                                         @if($index === 0) fetchpriority="high" loading="eager" @else loading="lazy" @endif>
 
                                     <div class="slide-info">
