@@ -26,25 +26,36 @@
                                     if ($image && strpos($image, '/') === 0)
                                         $image = 'https://image.tmdb.org/t/p/original' . $image;
                                 @endphp
-                                <div class="slide {{ $index === 0 ? 'active' : '' }}" style="background-image: url('{{ $image }}')">
+                                <div class="slide {{ $index === 0 ? 'active' : '' }}">
+
+                                    {{-- IMAGEM --}}
+                                    <img src="{{ $image }}" alt="{{ $title }}" class="slide-bg" width="1920" height="1080"
+                                        @if($index === 0) fetchpriority="high" loading="eager" @else loading="lazy" @endif>
+
                                     <div class="slide-info">
                                         <h2>{{ $title }}</h2>
+
                                         <div class="meta">
                                             <span><i class="fas fa-tag"></i> {{ $type }}</span>
                                             <span><i class="fas fa-calendar"></i> {{ $year }}</span>
-                                            <span class="rating"><i class="fas fa-star"></i>
-                                                {{ number_format($rating, 1) }}</span>
+                                            <span class="rating">
+                                                <i class="fas fa-star"></i> {{ number_format($rating, 1) }}
+                                            </span>
                                         </div>
+
                                         <p>{{ $description }}</p>
+
                                         @php
-                                            $itemUrl = $slider->content_type === 'movie' 
-                                                ? route('movies.show', $content->slug) 
+                                            $itemUrl = $slider->content_type === 'movie'
+                                                ? route('movies.show', $content->slug)
                                                 : route('series.show', $content->slug);
                                         @endphp
+
                                         <a href="{{ $itemUrl }}" class="btn-assistir">
                                             <i class="fas fa-play"></i> Assistir Agora
                                         </a>
                                     </div>
+
                                 </div>
                             @endforeach
                         </div>
@@ -97,7 +108,7 @@
                                         $itemPoster = $item->poster_url ?? $item->poster_path;
                                         if ($itemPoster && strpos($itemPoster, '/') === 0)
                                             $itemPoster = 'https://image.tmdb.org/t/p/w500' . $itemPoster;
-                                        
+
                                         $isSeries = ($item->type === 'series' || $item->type === 'serie' || isset($item->number_of_seasons));
                                         $itemType = $isSeries ? 'SÉRIE' : 'FILME';
                                         $itemIcon = $isSeries ? 'fas fa-tv' : 'fas fa-film';
@@ -109,7 +120,8 @@
                                     @endphp
                                     <a href="{{ $itemUrl }}" class="card">
                                         <div class="card-img-wrapper">
-                                            <div class="card-img" style="background-image: url('{{ $itemPoster }}')" title="Assistir {{ $itemTitle }} Online">
+                                            <div class="card-img" style="background-image: url('{{ $itemPoster }}')"
+                                                title="Assistir {{ $itemTitle }} Online">
                                                 @if(!$itemPoster)
                                                     <i class="{{ $itemIcon }} placeholder-icon"></i>
                                                 @endif
