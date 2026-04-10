@@ -50,53 +50,80 @@ if (slides.length > 1) {
 
 
 // =========================
-// SCROLL LATERAL OTIMIZADO
+// SCROLL LATERAL OTIMIZADO (Reflow Fix)
 // =========================
-document.querySelectorAll('.section').forEach(section => {
+const scrollSections = document.querySelectorAll('.section');
+const layoutCache = new Map();
+
+const updateLayoutCache = () => {
+    scrollSections.forEach((section, index) => {
+        const wrapper = section.querySelector('.scroll-wrapper');
+        if (wrapper) {
+            layoutCache.set(index, {
+                width: wrapper.clientWidth,
+                scrollWidth: wrapper.scrollWidth
+            });
+        }
+    });
+};
+
+// Inicializa o cache
+updateLayoutCache();
+
+scrollSections.forEach((section, index) => {
     const prev = section.querySelector('.prev-btn');
     const next = section.querySelector('.next-btn');
     const wrapper = section.querySelector('.scroll-wrapper');
 
     if (!prev || !next || !wrapper) return;
 
-    let scrollValue = wrapper.clientWidth * 0.75;
     let ticking = false;
-
-    const updateScrollValue = () => {
-        scrollValue = wrapper.clientWidth * 0.75;
-    };
 
     const checkButtons = () => {
         if (!ticking) {
             requestAnimationFrame(() => {
-                const maxScroll = wrapper.scrollWidth - wrapper.clientWidth;
+                const cache = layoutCache.get(index);
+                if (!cache) return;
+                
+                const maxScroll = cache.scrollWidth - cache.width;
+                const currentScroll = wrapper.scrollLeft;
 
-                prev.classList.toggle('hidden', wrapper.scrollLeft <= 10);
-                next.classList.toggle('hidden', wrapper.scrollLeft >= maxScroll - 10);
+                prev.classList.toggle('hidden', currentScroll <= 10);
+                next.classList.toggle('hidden', currentScroll >= maxScroll - 10);
 
                 ticking = false;
             });
-
             ticking = true;
         }
     };
 
     prev.addEventListener('click', () => {
-        wrapper.scrollBy({ left: -scrollValue, behavior: 'smooth' });
+        const cache = layoutCache.get(index);
+        const scrollAmount = (cache?.width || wrapper.clientWidth) * 0.75;
+        wrapper.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     });
 
     next.addEventListener('click', () => {
-        wrapper.scrollBy({ left: scrollValue, behavior: 'smooth' });
+        const cache = layoutCache.get(index);
+        const scrollAmount = (cache?.width || wrapper.clientWidth) * 0.75;
+        wrapper.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     });
 
     wrapper.addEventListener('scroll', checkButtons, { passive: true });
-    window.addEventListener('resize', () => {
-        updateScrollValue();
-        checkButtons();
-    });
-
+    
+    // Check inicial sem forçar reflow imediato se possível
     setTimeout(checkButtons, 200);
 });
+
+window.addEventListener('resize', () => {
+    updateLayoutCache();
+    // Re-check buttons para todas as seções
+    scrollSections.forEach((_, index) => {
+        const wrapper = scrollSections[index].querySelector('.scroll-wrapper');
+        // Trigger scroll event to run checkButtons logic
+        wrapper?.dispatchEvent(new Event('scroll'));
+    });
+}, { passive: true });
 
 
 // =========================

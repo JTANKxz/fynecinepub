@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --bg-color: #000000;
     /* Preto absoluto */
     --bg-surface: #0a0a0a;
@@ -298,9 +298,8 @@ a {
 
 /* ===== HERO / SLIDER (16/9 Exato) ===== */
 .hero-section {
-    padding-top: 110px;
-    /* Mantido fixo para evitar sobreposiÃ§Ã£o do header em todas as telas */
-    margin-bottom: 48px;
+    padding-top: 90px;
+    margin-bottom: 32px;
 }
 
 .featured-slider {

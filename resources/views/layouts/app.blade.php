@@ -49,21 +49,35 @@
 
   {{-- CSS CRÍTICO INLINE (acima da dobra) --}}
   <style>
+    :root { --primary: #8b5cf6; --bg-color: #000000; }
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      background: #0f0f0f;
+      background: var(--bg-color);
+      color: #fff;
+    }
+
+    .hero-section { padding-top: 110px; }
+    .featured-slider {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      max-height: 600px;
+      background: #0a0a0a;
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
     }
 
     .slide {
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .slide-bg {
       position: absolute;
       inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+    }
+    .slide.active { opacity: 1; }
+
+    .slide-bg {
       width: 100%;
       height: 100%;
       object-fit: cover;
