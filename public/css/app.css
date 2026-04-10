@@ -570,6 +570,7 @@ a {
     padding: 10px 0 24px 0;
     scrollbar-width: thin;
     scrollbar-color: #333 var(--bg-color);
+    -webkit-overflow-scrolling: touch;
     /* Para Firefox */
 }
 
@@ -611,6 +612,8 @@ a {
     border-radius: var(--radius-md);
     position: relative;
     transition: var(--transition);
+    content-visibility: auto;
+    contain-intrinsic-size: 300px;
 }
 
 .card-img-wrapper {
@@ -627,15 +630,19 @@ a {
 .card-img {
     width: 100%;
     height: 100%;
-    background-size: cover;
-    background-position: center;
+    object-fit: cover;
+    display: block;
     transition: transform 0.5s ease;
+    will-change: transform;
+}
+
+.card-img.placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.card-img i.placeholder-icon {
+.card-img.placeholder i {
     font-size: 3rem;
     color: #27272a;
 }
@@ -859,15 +866,18 @@ a {
 
     /* Ajustes finos para o slider 16/9 nÃ£o transbordar no mobile e ficar organizado */
     .slide {
-        padding: 12px 5%;
+        padding: 12px 16px;
+        contain: layout paint;
     }
 
     .slide-info {
-        max-width: 90%;
+        max-width: 320px;
+        contain: content;
+        will-change: transform, opacity;
     }
 
     .slide-info h2 {
-        font-size: 1.2rem;
+        font-weight: 700;
         margin-bottom: 4px;
     }
 
@@ -878,8 +888,8 @@ a {
     }
 
     .btn-assistir {
-        padding: 6px 16px;
-        font-size: 0.85rem;
+        min-height: 36px;
+        padding: 8px 16px;
     }
 
     .slide-info p {

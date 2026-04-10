@@ -121,22 +121,31 @@
                                         }
                                     @endphp
                                     <a href="{{ $itemUrl }}" class="card">
+
                                         <div class="card-img-wrapper">
-                                            <div class="card-img" style="background-image: url('{{ $itemPoster }}')"
-                                                title="Assistir {{ $itemTitle }} Online">
-                                                @if(!$itemPoster)
+
+                                            @if($itemPoster)
+                                                <img src="{{ $itemPoster }}" alt="{{ $itemTitle }}" class="card-img" loading="lazy"
+                                                    decoding="async" width="300" height="450">
+                                            @else
+                                                <div class="card-img placeholder">
                                                     <i class="{{ $itemIcon }} placeholder-icon"></i>
-                                                @endif
-                                            </div>
+                                                </div>
+                                            @endif
+
                                             <div class="card-badge">{{ $itemType }}</div>
+
                                             <div class="card-overlay">
                                                 <div class="play-circle">
                                                     <i class="fas fa-play"></i>
                                                 </div>
                                             </div>
+
                                         </div>
+
                                         <div class="card-info">
                                             <h4>{{ $itemTitle }}</h4>
+
                                             <div class="card-meta">
                                                 <span>{{ $itemYear }}</span>
                                                 <span class="rating">
@@ -144,6 +153,7 @@
                                                 </span>
                                             </div>
                                         </div>
+
                                     </a>
                                 @endforeach
                             </div>
