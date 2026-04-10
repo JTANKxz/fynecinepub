@@ -14,7 +14,7 @@
   <link rel="canonical" href="{{ url()->current() }}">
   <meta name="robots" content="index, follow">
 
-  {{-- OPEN GRAPH / FACEBOOK / TELEGRAM / WHATSAPP --}}
+  {{-- OPEN GRAPH --}}
   <meta property="og:type" content="@yield('og_type', 'website')">
   <meta property="og:url" content="{{ url()->current() }}">
   <meta property="og:title" content="@yield('title', 'FYNECINE - Seu cinema em casa')">
@@ -32,22 +32,59 @@
     content="@yield('description', 'Assista aos melhores filmes e séries online em alta definição.')">
   <meta name="twitter:image" content="@yield('og_image', asset('img/og-fallback.jpg'))">
 
-  {{-- PERFORMANCE HINTS --}}
+  {{-- PERFORMANCE --}}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://image.tmdb.org">
+
   <link rel="dns-prefetch" href="https://image.tmdb.org">
   <link rel="dns-prefetch" href="https://cdn.plyr.io">
 
-  <!-- Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
-    rel="stylesheet">
+  {{-- FONTES OTIMIZADAS (menos pesos + swap) --}}
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  {{-- FONT AWESOME (carregamento assíncrono real) --}}
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style"
+    onload="this.onload=null;this.rel='stylesheet'">
 
-  {{-- ESTRUTURA DE DADOS (SCHEMA.ORG) --}}
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  </noscript>
+
+  {{-- CSS CRÍTICO INLINE (acima da dobra) --}}
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #0f0f0f;
+    }
+
+    .slide {
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+
+  {{-- CSS PRINCIPAL (não bloqueante) --}}
+  <link rel="preload" href="{{ asset('css/app.css') }}" as="style" onload="this.rel='stylesheet'">
+
+  <noscript>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  </noscript>
+
+  {{-- PLYR (não crítico) --}}
+  <link rel="preload" href="https://cdn.plyr.io/3.7.8/plyr.css" as="style" onload="this.rel='stylesheet'">
+
+  {{-- ESTRUTURA DE DADOS --}}
   <script type="application/ld+json">
     {
       "@@context": "https://schema.org",
@@ -60,7 +97,8 @@
         "https://whatsapp.com/channel/0029Va6wcHqAInPjJVZ2jD1H"
       ]
     }
-    </script>
+  </script>
+
   <script type="application/ld+json">
     {
       "@@context": "https://schema.org",
@@ -72,14 +110,10 @@
         "query-input": "required name=search_term_string"
       }
     }
-    </script>
+  </script>
+
   @stack('seo')
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
-  <!-- CSS do Player Plyr (Premium UI) -->
-  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 </head>
 
 <body>
