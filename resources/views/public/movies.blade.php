@@ -1,0 +1,140 @@
+@extends('layouts.app')
+
+@section('title', 'Filmes | FYNECINE')
+
+@section('content')
+    <main class="catalog-page">
+        <div class="container">
+            <!-- Cabeçalho da Página com Filtros -->
+            <div class="page-header">
+                <h2 class="page-title">Filmes <span>({{ $movies->total() }} títulos)</span></h2>
+
+                <form action="{{ url()->current() }}" method="GET" class="filters" id="filterForm">
+                    {{-- Mantém a busca se houver --}}
+                    @if(request('q'))
+                        <input type="hidden" name="q" value="{{ request('q') }}">
+                    @endif
+
+                    <select name="genre" class="filter-select" onchange="document.getElementById('filterForm').submit()">
+                        <option value="">Gênero: Todos</option>
+                        @foreach($genres as $genre)
+                            <option value="{{ $genre->id }}" {{ request('genre') == $genre->id ? 'selected' : '' }}>
+                                {{ $genre->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <select name="year" class="filter-select" onchange="document.getElementById('filterForm').submit()">
+                        <option value="">Ano: Todos</option>
+                        @foreach($years as $year)
+                            <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>
+                                {{ $year }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <select name="sort" class="filter-select" onchange="document.getElementById('filterForm').submit()">
+                        <option value="recentes" {{ request('sort') == 'recentes' ? 'selected' : '' }}>Mais Recentes</option>
+                        <option value="populares" {{ request('sort') == 'populares' ? 'selected' : '' }}>Mais Populares</option>
+                        <option value="avaliacao" {{ request('sort') == 'avaliacao' ? 'selected' : '' }}>Melhor Avaliação</option>
+                        <option value="antigos" {{ request('sort') == 'antigos' ? 'selected' : '' }}>Anteriores</option>
+                    </select>
+                </form>
+            </div>
+
+            <!-- GRID PRINCIPAL -->
+            <div class="catalog-grid">
+                @forelse($movies as $item)
+                    @php
+                        $itemTitle = $item->title ?? $item->name;
+                        $itemYear = $item->release_year ?? $item->first_air_year;
+                        $itemRating = $item->rating;
+                        $itemPoster = $item->poster_url ?? $item->poster_path;
+                        if ($itemPoster && strpos($itemPoster, '/') === 0)
+                            $itemPoster = 'https://image.tmdb.org/t/p/w500' . $itemPoster;
+                        
+                        $isSeries = ($item->type === 'series' || $item->type === 'serie' || isset($item->number_of_seasons));
+                        $itemType = $isSeries ? 'SÉRIE' : 'FILME';
+                        $itemIcon = $isSeries ? 'fas fa-tv' : 'fas fa-film';
+                    @endphp
+                    @php
+                        // Somente gera rota se tiver slug
+                        $itemUrl = 'javascript:void(0)';
+                        if ($item->slug) {
+                            $itemUrl = $isSeries ? route('series.show', $item->slug) : route('movies.show', $item->slug);
+                        }
+                    @endphp
+                    <a href="{{ $itemUrl }}" class="card">
+                        <div class="card-img-wrapper">
+                            <div class="card-img" style="background-image: url('{{ $itemPoster }}')">
+                                @if(!$itemPoster)
+                                    <i class="{{ $itemIcon }} placeholder-icon"></i>
+                                @endif
+                            </div>
+                            <div class="card-badge">{{ $itemType }}</div>
+                            <div class="card-overlay">
+                                <div class="play-circle">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-info">
+                            <h4>{{ $itemTitle }}</h4>
+                            <div class="card-meta">
+                                <span>{{ $itemYear }}</span>
+                                <span class="rating">
+                                    <i class="fas fa-star"></i>{{ number_format($itemRating, 1) }}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                @empty
+                    <div style="grid-column: 1/-1; text-align: center; padding: 100px 0; color: var(--text-muted);">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                        <p>Nenhum filme encontrado com os filtros selecionados.</p>
+                        <a href="{{ url()->current() }}" class="btn-assistir" style="margin-top: 20px;">Limpar Filtros</a>
+                    </div>
+                @endforelse
+            </div>
+
+            <!-- PAGINAÇÃO -->
+            @if($movies->hasPages())
+                <div class="pagination">
+                    @if($movies->onFirstPage())
+                        <div class="page-btn disabled"><i class="fas fa-chevron-left"></i></div>
+                    @else
+                        <a href="{{ $movies->previousPageUrl() }}" class="page-btn"><i class="fas fa-chevron-left"></i></a>
+                    @endif
+
+                    {{-- Mostra um range de páginas --}}
+                    @php
+                        $start = max(1, $movies->currentPage() - 2);
+                        $end = min($movies->lastPage(), $movies->currentPage() + 2);
+                    @endphp
+
+                    @if($start > 1)
+                        <a href="{{ $movies->url(1) }}" class="page-btn">1</a>
+                        @if($start > 2) <span style="color: var(--text-muted);">...</span> @endif
+                    @endif
+
+                    @for($i = $start; $i <= $end; $i++)
+                        <a href="{{ $movies->url($i) }}" class="page-btn {{ $i == $movies->currentPage() ? 'active' : '' }}">
+                            {{ $i }}
+                        </a>
+                    @endfor
+
+                    @if($end < $movies->lastPage())
+                        @if($end < $movies->lastPage() - 1) <span style="color: var(--text-muted);">...</span> @endif
+                        <a href="{{ $movies->url($movies->lastPage()) }}" class="page-btn">{{ $movies->lastPage() }}</a>
+                    @endif
+
+                    @if($movies->hasMorePages())
+                        <a href="{{ $movies->nextPageUrl() }}" class="page-btn"><i class="fas fa-chevron-right"></i></a>
+                    @else
+                        <div class="page-btn disabled"><i class="fas fa-chevron-right"></i></div>
+                    @endif
+                </div>
+            @endif
+        </div>
+    </main>
+@endsection
