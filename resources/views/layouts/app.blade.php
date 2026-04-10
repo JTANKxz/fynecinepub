@@ -41,7 +41,9 @@
   <link rel="dns-prefetch" href="https://cdn.plyr.io">
 
   {{-- FONTES OTIMIZADAS (menos pesos + swap) --}}
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+    media="print" onload="this.media='all'">
 
   {{-- FONT AWESOME (carregamento assíncrono real) --}}
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style"

@@ -12,53 +12,56 @@
                     <div class="featured-slider">
                         <div class="slides-container" id="featuredSlider">
                             @foreach($sliders as $index => $slider)
-                                @php
-                                    $content = $slider->content;
-                                    if (!$content)
-                                        continue;
-                                    $title = $slider->title;
-                                    $year = $content->release_year ?? $content->first_air_year;
-                                    $rating = $content->rating;
-                                    $description = $content->overview;
-                                    $type = $slider->content_type === 'movie' ? 'Filme' : 'Série';
-                                    $image = $slider->image_url ?? $content->backdrop_url ?? $content->poster_url;
+                                                    @php
+                                                        $content = $slider->content;
+                                                        if (!$content)
+                                                            continue;
+                                                        $title = $slider->title;
+                                                        $year = $content->release_year ?? $content->first_air_year;
+                                                        $rating = $content->rating;
+                                                        $description = $content->overview;
+                                                        $type = $slider->content_type === 'movie' ? 'Filme' : 'Série';
+                                                        $image = $slider->image_url ?? $content->backdrop_url ?? $content->poster_url;
 
-                                    if ($image && strpos($image, '/') === 0) {
-                                        // 🔥 TAMANHO CERTO PRO HERO
-                                        $image = 'https://image.tmdb.org/t/p/w1280' . $image;
-                                    }
-                                @endphp
-                                <div class="slide {{ $index === 0 ? 'active' : '' }}">
+                                                        if ($image && strpos($image, '/') === 0) {
+                                                            // 🔥 TAMANHO CERTO PRO HERO
+                                                            $image = 'https://image.tmdb.org/t/p/w1280' . $image;
+                                                        }
+                                                    @endphp
+                                                    <div class="slide {{ $index === 0 ? 'active' : '' }}">
 
-                                    {{-- IMAGEM --}}
-                                    <img src="{{ $image }}" alt="{{ $title }}" class="slide-bg" width="1280" height="720"
-                                        @if($index === 0) fetchpriority="high" loading="eager" @else loading="lazy" @endif>
+                                                        {{-- IMAGEM --}}
+                                                        <img src="{{ $image }}" srcset="
+                                    {{ str_replace('w1280', 'w780', $image) }} 780w,
+                                    {{ str_replace('w1280', 'w1280', $image) }} 1280w
+                                  " sizes="100vw" alt="{{ $title }}" class="slide-bg" width="1280" height="720" decoding="async" @if($index === 0)
+                                fetchpriority="high" loading="eager" @else loading="lazy" @endif>
 
-                                    <div class="slide-info">
-                                        <h2>{{ $title }}</h2>
+                                                        <div class="slide-info">
+                                                            <h2>{{ $title }}</h2>
 
-                                        <div class="meta">
-                                            <span><i class="fas fa-tag"></i> {{ $type }}</span>
-                                            <span><i class="fas fa-calendar"></i> {{ $year }}</span>
-                                            <span class="rating">
-                                                <i class="fas fa-star"></i> {{ number_format($rating, 1) }}
-                                            </span>
-                                        </div>
+                                                            <div class="meta">
+                                                                <span><i class="fas fa-tag"></i> {{ $type }}</span>
+                                                                <span><i class="fas fa-calendar"></i> {{ $year }}</span>
+                                                                <span class="rating">
+                                                                    <i class="fas fa-star"></i> {{ number_format($rating, 1) }}
+                                                                </span>
+                                                            </div>
 
-                                        <p>{{ $description }}</p>
+                                                            <p>{{ $description }}</p>
 
-                                        @php
-                                            $itemUrl = $slider->content_type === 'movie'
-                                                ? route('movies.show', $content->slug)
-                                                : route('series.show', $content->slug);
-                                        @endphp
+                                                            @php
+                                                                $itemUrl = $slider->content_type === 'movie'
+                                                                    ? route('movies.show', $content->slug)
+                                                                    : route('series.show', $content->slug);
+                                                            @endphp
 
-                                        <a href="{{ $itemUrl }}" class="btn-assistir">
-                                            <i class="fas fa-play"></i> Assistir Agora
-                                        </a>
-                                    </div>
+                                                            <a href="{{ $itemUrl }}" class="btn-assistir">
+                                                                <i class="fas fa-play"></i> Assistir Agora
+                                                            </a>
+                                                        </div>
 
-                                </div>
+                                                    </div>
                             @endforeach
                         </div>
                     </div>
@@ -109,7 +112,7 @@
                                         $itemRating = $item->rating;
                                         $itemPoster = $item->poster_url ?? $item->poster_path;
                                         if ($itemPoster && strpos($itemPoster, '/') === 0)
-                                            $itemPoster = 'https://image.tmdb.org/t/p/w500' . $itemPoster;
+                                            $itemPoster = 'https://image.tmdb.org/t/p/w300' . $itemPoster;
 
                                         $isSeries = ($item->type === 'series' || $item->type === 'serie' || isset($item->number_of_seasons));
                                         $itemType = $isSeries ? 'SÉRIE' : 'FILME';
@@ -125,8 +128,7 @@
                                         <div class="card-img-wrapper">
 
                                             @if($itemPoster)
-                                                <img src="{{ $itemPoster }}" alt="{{ $itemTitle }}" class="card-img" loading="lazy"
-                                                    decoding="async" width="300" height="450">
+                                                <img src="{{ $itemPoster }}" srcset="{{ str_replace('w300', 'w185', $itemPoster) }} 185w, {{ str_replace('w300', 'w300', $itemPoster) }} 300w,{{ str_replace('w300', 'w500', $itemPoster) }} 500w" sizes="(max-width: 640px) 140px, 200px" alt="{{ $itemTitle }}" class="card-img" loading="lazy" decoding="async" width="300" height="450">
                                             @else
                                                 <div class="card-img placeholder">
                                                     <i class="{{ $itemIcon }} placeholder-icon"></i>
