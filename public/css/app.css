@@ -1827,3 +1827,14 @@ body.playing-mode .header {
     opacity: 1 !important;
     visibility: visible !important;
 }
+
+.header.scrolled {
+    background: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+}
+
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
