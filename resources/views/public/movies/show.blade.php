@@ -87,13 +87,13 @@
 
     {{-- Botão central mobile --}}
     <button class="mobile-backdrop-play trigger-modal-play" aria-label="Assistir Agora">
-        <i class="fas fa-play"></i>
+        <i data-lucide="play"></i>
     </button>
 
     {{-- Container do Player --}}
     <div class="player-wrapper" id="playerWrapper">
         <button class="close-player-btn" id="closePlayerBtn">
-            <i class="fas fa-arrow-left"></i> Voltar
+            <i data-lucide="arrow-left"></i> Voltar
         </button>
 
         <video id="videoPlayer" playsinline controls style="display: none;"
@@ -121,13 +121,13 @@
                     <h1 class="details-title">{{ $movie->title }}</h1>
 
                     <div class="details-meta">
-                        <span><i class="fas fa-calendar"></i> {{ $movie->release_year }}</span>
-                        @if ($formattedRuntime)
-                            <span><i class="fas fa-clock"></i> {{ $formattedRuntime }}</span>
+                        <span><i data-lucide="calendar"></i> {{ $movie->release_year }}</span>
+                        @if ($runtime)
+                            <span><i data-lucide="clock"></i> {{ $formattedRuntime }}</span>
                         @endif
-                        <span class="rating"><i class="fas fa-star"></i> {{ number_format($movie->rating, 1) }}/10</span>
+                        <span class="rating"><i data-lucide="star"></i> {{ number_format($movie->rating, 1) }}/10</span>
                         @if ($movie->age_rating)
-                            <span class="age-badge"><i class="fas fa-eye"></i> +{{ $movie->age_rating }}</span>
+                            <span class="age-badge"><i data-lucide="eye"></i> +{{ $movie->age_rating }}</span>
                         @endif
                     </div>
 
@@ -143,20 +143,20 @@
 
                     <div class="details-actions">
                         <button class="btn-primary trigger-modal-play">
-                            <i class="fas fa-play"></i> Assistir Agora
+                            <i data-lucide="play"></i> Assistir Agora
                         </button>
                         @if ($movie->trailer_url)
                             <a href="{{ $movie->trailer_url }}" target="_blank" class="btn-secondary">
-                                <i class="fas fa-film"></i> Ver Trailer
+                                <i data-lucide="film"></i> Ver Trailer
                             </a>
                         @elseif($movie->trailer_key)
                             <a href="https://www.youtube.com/watch?v={{ $movie->trailer_key }}" target="_blank"
                                 class="btn-secondary">
-                                <i class="fas fa-film"></i> Ver Trailer
+                                <i data-lucide="film"></i> Ver Trailer
                             </a>
                         @endif
                         <button class="btn-secondary" style="padding: 12px 18px;" aria-label="Adicionar aos favoritos">
-                            <i class="fas fa-bookmark"></i>
+                            <i data-lucide="bookmark"></i>
                         </button>
                     </div>
                 </div>
@@ -166,11 +166,11 @@
             @if ($movie->cast->isNotEmpty())
                 <section class="details-section">
                     <div class="section-header">
-                        <h2><i class="fas fa-users"></i> Elenco Principal</h2>
+                        <h2><i data-lucide="users"></i> Elenco Principal</h2>
                     </div>
 
                     <div class="slider-container">
-                        <button class="slider-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn prev-btn"><i data-lucide="chevron-left"></i></button>
                         <div class="scroll-wrapper">
                             <div class="cards-row">
                                 @foreach ($movie->cast->sortBy('pivot.order') as $actor)
@@ -192,7 +192,7 @@
                                 @endforeach
                             </div>
                         </div>
-                        <button class="slider-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                        <button class="slider-btn next-btn"><i data-lucide="chevron-right"></i></button>
                     </div>
                 </section>
             @endif
@@ -201,7 +201,7 @@
             @if ($similarMovies->isNotEmpty())
                 <section class="details-section">
                     <div class="section-header">
-                        <h2><i class="fas fa-layer-group"></i> Títulos Semelhantes</h2>
+                        <h2><i data-lucide="layers"></i> Títulos Semelhantes</h2>
                     </div>
 
                     <div class="slider-container">
@@ -221,7 +221,7 @@
                                             <div class="card-img" style="background-image: url('{{ $sPoster }}')"></div>
                                             <div class="card-badge">FILME</div>
                                             <div class="card-overlay">
-                                                <div class="play-circle"><i class="fas fa-play"></i></div>
+                                                <div class="play-circle"><i data-lucide="play"></i></div>
                                             </div>
                                         </div>
                                         <div class="card-info">
@@ -229,7 +229,7 @@
                                             <div class="card-meta">
                                                 <span>{{ $similar->release_year }}</span>
                                                 <span class="rating"><i
-                                                        class="fas fa-star"></i>{{ number_format($similar->rating, 1) }}</span>
+                                                        data-lucide="star"></i>{{ number_format($similar->rating, 1) }}</span>
                                             </div>
                                         </div>
                                     </a>
@@ -248,13 +248,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Escolha um Servidor</h3>
-                <button class="close-modal-btn" id="closeModalBtn"><i class="fas fa-times"></i></button>
+                <button class="close-modal-btn" id="closeModalBtn"><i data-lucide="x"></i></button>
             </div>
             <div class="modal-options-list">
                 @forelse($playLinks as $link)
                     <button class="option-item select-server" data-src="{{ $link->url }}"
                         data-type="{{ $link->type }}">
-                        <i class="fas fa-server"></i>
+                        <i data-lucide="server"></i>
                         <div>
                             <div style="font-weight: 700;">{{ $link->name }}</div>
                             <div style="font-size: 0.8rem; color: var(--text-muted);">

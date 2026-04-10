@@ -87,14 +87,14 @@
             data-episode-id="{{ $episodes->first()->id }}"
             data-links='@json($firstEpLinks)'
             aria-label="Assistir Agora">
-        <i class="fas fa-play"></i>
+        <i data-lucide="play"></i>
     </button>
     @endif
 
     {{-- Container do Player --}}
     <div class="player-wrapper" id="playerWrapper">
         <button class="close-player-btn" id="closePlayerBtn">
-            <i class="fas fa-arrow-left"></i> Voltar
+            <i data-lucide="arrow-left"></i> Voltar
         </button>
 
         <video id="videoPlayer" playsinline controls style="display: none;"
@@ -122,11 +122,11 @@
                     <h1 class="details-title">{{ $serie->name }}</h1>
 
                     <div class="details-meta">
-                        <span><i class="fas fa-calendar"></i> {{ $serie->first_air_year }} {{ $serie->last_air_year ? '- ' . $serie->last_air_year : '- Presente' }}</span>
-                        <span><i class="fas fa-layer-group"></i> {{ $serie->seasons->count() }} Temporadas</span>
-                        <span class="rating"><i class="fas fa-star"></i> {{ number_format($serie->rating, 1) }}/10</span>
+                        <span><i data-lucide="calendar"></i> {{ $serie->first_air_year }} {{ $serie->last_air_year ? '- ' . $serie->last_air_year : '- Presente' }}</span>
+                        <span><i data-lucide="layers"></i> {{ $serie->seasons->count() }} Temporadas</span>
+                        <span class="rating"><i data-lucide="star"></i> {{ number_format($serie->rating, 1) }}/10</span>
                         @if ($serie->age_rating)
-                            <span class="age-badge"><i class="fas fa-eye"></i> +{{ $serie->age_rating }}</span>
+                            <span class="age-badge"><i data-lucide="eye"></i> +{{ $serie->age_rating }}</span>
                         @endif
                     </div>
 
@@ -145,22 +145,22 @@
                         <button class="btn-primary trigger-modal-play" 
                                 data-episode-id="{{ $episodes->first()->id }}"
                                 data-links='@json($firstEpLinks)'>
-                            <i class="fas fa-play"></i> Assistir S{{ $selectedSeasonNumber }}:E1
+                            <i data-lucide="play"></i> Assistir S{{ $selectedSeasonNumber }}:E1
                         </button>
                         @endif
                         
                         @if ($serie->trailer_url)
                             <a href="{{ $serie->trailer_url }}" target="_blank" class="btn-secondary">
-                                <i class="fas fa-film"></i> Ver Trailer
+                                <i data-lucide="film"></i> Ver Trailer
                             </a>
                         @elseif($serie->trailer_key)
                             <a href="https://www.youtube.com/watch?v={{ $serie->trailer_key }}" target="_blank"
                                 class="btn-secondary">
-                                <i class="fas fa-film"></i> Ver Trailer
+                                <i data-lucide="film"></i> Ver Trailer
                             </a>
                         @endif
                         <button class="btn-secondary" style="padding: 12px 18px;" aria-label="Adicionar aos favoritos">
-                            <i class="fas fa-bookmark"></i>
+                            <i data-lucide="bookmark"></i>
                         </button>
                     </div>
                 </div>
@@ -169,7 +169,7 @@
             {{-- SEÇÃO DE EPISÓDIOS --}}
             <section class="episodes-section">
                 <div class="episodes-header">
-                    <h2><i class="fas fa-list-ol"></i> Episódios</h2>
+                    <h2><i data-lucide="list-ordered"></i> Episódios</h2>
                     <select class="season-select" id="seasonSelect" aria-label="Escolher Temporada">
                         @foreach($serie->seasons as $season)
                             <option value="{{ $season->season_number }}" {{ $selectedSeasonNumber == $season->season_number ? 'selected' : '' }}>
@@ -192,7 +192,7 @@
                              data-links='@json($episode->linksData)'>
                             <div class="episode-thumb">
                                 <img src="{{ $still ?? 'https://placehold.co/320x180/18181b/8b5cf6?text=Episódio+'.$episode->episode_number }}" alt="{{ $episode->name }}">
-                                <div class="episode-play-overlay"><i class="fas fa-play"></i></div>
+                                <div class="episode-play-overlay"><i data-lucide="play"></i></div>
                             </div>
                             <div class="episode-info">
                                 <div class="episode-title-row">
@@ -214,11 +214,11 @@
             @if ($serie->cast->isNotEmpty())
                 <section class="details-section">
                     <div class="section-header">
-                        <h2><i class="fas fa-users"></i> Elenco Principal</h2>
+                        <h2><i data-lucide="users"></i> Elenco Principal</h2>
                     </div>
 
                     <div class="slider-container">
-                        <button class="slider-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn prev-btn"><i data-lucide="chevron-left"></i></button>
                         <div class="scroll-wrapper">
                             <div class="cards-row">
                                 @foreach ($serie->cast->sortBy('pivot.order') as $actor)
@@ -240,7 +240,7 @@
                                 @endforeach
                             </div>
                         </div>
-                        <button class="slider-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                        <button class="slider-btn next-btn"><i data-lucide="chevron-right"></i></button>
                     </div>
                 </section>
             @endif
@@ -249,7 +249,7 @@
             @if ($similarSeries->isNotEmpty())
                 <section class="details-section">
                     <div class="section-header">
-                        <h2><i class="fas fa-layer-group"></i> Títulos Semelhantes</h2>
+                        <h2><i data-lucide="layers"></i> Títulos Semelhantes</h2>
                     </div>
 
                     <div class="slider-container">
@@ -269,7 +269,7 @@
                                             <div class="card-img" style="background-image: url('{{ $sPoster }}')"></div>
                                             <div class="card-badge">{{ Str::upper($similar->type) }}</div>
                                             <div class="card-overlay">
-                                                <div class="play-circle"><i class="fas fa-play"></i></div>
+                                                <div class="play-circle"><i data-lucide="play"></i></div>
                                             </div>
                                         </div>
                                         <div class="card-info">
@@ -277,7 +277,7 @@
                                             <div class="card-meta">
                                                 <span>{{ $similar->first_air_year }}</span>
                                                 <span class="rating"><i
-                                                        class="fas fa-star"></i>{{ number_format($similar->rating, 1) }}</span>
+                                                        data-lucide="star"></i>{{ number_format($similar->rating, 1) }}</span>
                                             </div>
                                         </div>
                                     </a>
@@ -296,7 +296,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Escolha um Servidor</h3>
-                <button class="close-modal-btn" id="closeModalBtn"><i class="fas fa-times"></i></button>
+                <button class="close-modal-btn" id="closeModalBtn"><i data-lucide="x"></i></button>
             </div>
             <div class="modal-options-list" id="modalOptionsList">
                 {{-- Preenchido via JS ao clicar no episódio --}}
@@ -332,13 +332,13 @@
                     
                     if (links.length > 0) {
                         modalOptionsList.innerHTML = links.map(link => {
-                            let icon = 'fas fa-play-circle';
-                            if (link.name.toLowerCase().includes('legendado')) icon = 'fas fa-closed-captioning';
-                            if (link.type === 'embed') icon = 'fas fa-server';
+                            let icon = 'play-circle';
+                            if (link.name.toLowerCase().includes('legendado')) icon = 'captions';
+                            if (link.type === 'embed') icon = 'server';
 
                             return `
                                 <button class="option-item select-server" data-src="${link.url}" data-type="${link.type}">
-                                    <i class="${icon}"></i>
+                                    <i data-lucide="${icon}"></i>
                                     <div>
                                         <div style="font-weight: 700;">${link.name}</div>
                                         <div style="font-size: 0.8rem; color: var(--text-muted);">
@@ -348,6 +348,7 @@
                                 </button>
                             `;
                         }).join('');
+                        lucide.createIcons();
                     } else {
                         modalOptionsList.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 20px;">Nenhum servidor disponível para este episódio.</div>';
                     }

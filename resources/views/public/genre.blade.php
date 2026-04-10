@@ -47,7 +47,7 @@
                         
                         $isSeries = ($item->type === 'series');
                         $itemType = $isSeries ? 'SÉRIE' : 'FILME';
-                        $itemIcon = $isSeries ? 'fas fa-tv' : 'fas fa-film';
+                        $itemIcon = $isSeries ? 'tv' : 'film';
                         
                         $itemUrl = $item->slug ? route($isSeries ? 'series.show' : 'movies.show', $item->slug) : 'javascript:void(0)';
                     @endphp
@@ -55,13 +55,13 @@
                         <div class="card-img-wrapper">
                             <div class="card-img" style="background-image: url('{{ $itemPoster ?? 'https://placehold.co/400x600/18181b/8b5cf6?text=Sem+Poster' }}')">
                                 @if(!$itemPoster)
-                                    <i class="{{ $itemIcon }} placeholder-icon"></i>
+                                    <i data-lucide="{{ $itemIcon }}" class="placeholder-icon"></i>
                                 @endif
                             </div>
                             <div class="card-badge">{{ $itemType }}</div>
                             <div class="card-overlay">
                                 <div class="play-circle">
-                                    <i class="fas fa-play"></i>
+                                    <i data-lucide="play"></i>
                                 </div>
                             </div>
                         </div>
@@ -70,14 +70,14 @@
                             <div class="card-meta">
                                 <span>{{ $itemYear }}</span>
                                 <span class="rating">
-                                    <i class="fas fa-star"></i>{{ number_format($itemRating, 1) }}
+                                    <i data-lucide="star"></i>{{ number_format($itemRating, 1) }}
                                 </span>
                             </div>
                         </div>
                     </a>
                 @empty
                     <div style="grid-column: 1/-1; text-align: center; padding: 100px 0; color: var(--text-muted);">
-                        <i class="fas fa-theater-masks" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                        <i data-lucide="drama" style="width: 48px; height: 48px; margin-bottom: 20px; opacity: 0.5;"></i>
                         <p>Ainda não temos títulos cadastrados para o gênero "{{ $genre->name }}".</p>
                         <a href="{{ url('/') }}" class="btn-assistir" style="margin-top: 20px; display: inline-block;">Voltar para o Início</a>
                     </div>
@@ -88,9 +88,9 @@
             @if($results->hasPages())
                 <div class="pagination">
                     @if($results->onFirstPage())
-                        <div class="page-btn disabled"><i class="fas fa-chevron-left"></i></div>
+                        <div class="page-btn disabled"><i data-lucide="chevron-left"></i></div>
                     @else
-                        <a href="{{ $results->previousPageUrl() }}" class="page-btn"><i class="fas fa-chevron-left"></i></a>
+                        <a href="{{ $results->previousPageUrl() }}" class="page-btn"><i data-lucide="chevron-left"></i></a>
                     @endif
 
                     @php
@@ -115,9 +115,9 @@
                     @endif
 
                     @if($results->hasMorePages())
-                        <a href="{{ $results->nextPageUrl() }}" class="page-btn"><i class="fas fa-chevron-right"></i></a>
+                        <a href="{{ $results->nextPageUrl() }}" class="page-btn"><i data-lucide="chevron-right"></i></a>
                     @else
-                        <div class="page-btn disabled"><i class="fas fa-chevron-right"></i></div>
+                        <div class="page-btn disabled"><i data-lucide="chevron-right"></i></div>
                     @endif
                 </div>
             @endif

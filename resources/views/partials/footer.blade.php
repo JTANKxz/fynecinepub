@@ -6,8 +6,12 @@
             </a>
             <p>FYNECINE não hospeda arquivos em seus servidores. O conteúdo é indexado de forma automática.</p>
             <div class="social-links">
-                <a href="https://t.me/fynecinex"><i class="fab fa-telegram"></i></a>
-                <a href="https://whatsapp.com/channel/0029Va6wcHqAInPjJVZ2jD1H"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://t.me/fynecinex" aria-label="Telegram">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                </a>
+                <a href="https://whatsapp.com/channel/0029Va6wcHqAInPjJVZ2jD1H" aria-label="WhatsApp">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-11.8 8.38 8.38 0 0 1 3.8.9L21 3z"/></svg>
+                </a>
             </div>
         </div>
 

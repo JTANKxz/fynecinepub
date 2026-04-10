@@ -41,10 +41,10 @@
                                                             <h2>{{ $title }}</h2>
 
                                                             <div class="meta">
-                                                                <span><i class="fas fa-tag"></i> {{ $type }}</span>
-                                                                <span><i class="fas fa-calendar"></i> {{ $year }}</span>
+                                                                <span><i data-lucide="tag"></i> {{ $type }}</span>
+                                                                <span><i data-lucide="calendar"></i> {{ $year }}</span>
                                                                 <span class="rating">
-                                                                    <i class="fas fa-star"></i> {{ number_format($rating, 1) }}
+                                                                    <i data-lucide="star"></i> {{ number_format($rating, 1) }}
                                                                 </span>
                                                             </div>
 
@@ -57,7 +57,7 @@
                                                             @endphp
 
                                                             <a href="{{ $itemUrl }}" class="btn-assistir">
-                                                                <i class="fas fa-play"></i> Assistir Agora
+                                                                <i data-lucide="play"></i> Assistir Agora
                                                             </a>
                                                         </div>
 
@@ -77,31 +77,31 @@
         <div id="sections-container">
             @foreach($sections as $section)
                 @php
-                    $iconClass = 'fas fa-clapperboard';
+                    $icon = 'clapperboard';
                     if ($section->type === 'genre')
-                        $iconClass = 'fas fa-theater-masks';
+                        $icon = 'drama'; // Lucide 'drama' is a good fit for theater-masks
                     if ($section->type === 'recently_added')
-                        $iconClass = 'fas fa-fire';
+                        $icon = 'flame';
                     if ($section->type === 'upcoming')
-                        $iconClass = 'fas fa-calendar-alt';
+                        $icon = 'calendar-days';
                     if ($section->type === 'events')
-                        $iconClass = 'fas fa-trophy';
+                        $icon = 'trophy';
                 @endphp
                 <div class="section">
                     <div class="container section-header">
-                        <h2><i class="{{ $iconClass }}"></i> {{ $section->title }}</h2>
+                        <h2><i data-lucide="{{ $icon }}"></i> {{ $section->title }}</h2>
                         @php
                             $seeAllUrl = $section->content_type === 'series' ? url('/series') : url('/filmes');
                             if ($section->type === 'genre' && $section->genre) {
                                 $seeAllUrl = route('genre.show', $section->genre->slug);
                             }
                         @endphp
-                        <a href="{{ $seeAllUrl }}" class="btn-see-all">Ver tudo <i class="fas fa-chevron-right"
-                                style="font-size:0.7rem"></i></a>
+                        <a href="{{ $seeAllUrl }}" class="btn-see-all">Ver tudo <i data-lucide="chevron-right"
+                                                                style="width:12px;height:12px"></i></a>
                     </div>
 
                     <div class="slider-container">
-                        <button class="slider-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-btn prev-btn"><i data-lucide="chevron-left"></i></button>
 
                         <div class="scroll-wrapper">
                             <div class="cards-row">
@@ -116,7 +116,7 @@
 
                                         $isSeries = ($item->type === 'series' || $item->type === 'serie' || isset($item->number_of_seasons));
                                         $itemType = $isSeries ? 'SÉRIE' : 'FILME';
-                                        $itemIcon = $isSeries ? 'fas fa-tv' : 'fas fa-film';
+                                        $itemIcon = $isSeries ? 'tv' : 'film';
 
                                         $itemUrl = 'javascript:void(0)';
                                         if ($item->slug) {
@@ -131,7 +131,7 @@
                                                 <img src="{{ $itemPoster }}" srcset="{{ str_replace('w300', 'w185', $itemPoster) }} 185w, {{ str_replace('w300', 'w300', $itemPoster) }} 300w,{{ str_replace('w300', 'w500', $itemPoster) }} 500w" sizes="(max-width: 640px) 140px, 200px" alt="{{ $itemTitle }}" class="card-img" loading="lazy" decoding="async" width="300" height="450">
                                             @else
                                                 <div class="card-img placeholder">
-                                                    <i class="{{ $itemIcon }} placeholder-icon"></i>
+                                                    <i data-lucide="{{ $itemIcon }}" class="placeholder-icon"></i>
                                                 </div>
                                             @endif
 
@@ -139,7 +139,7 @@
 
                                             <div class="card-overlay">
                                                 <div class="play-circle">
-                                                    <i class="fas fa-play"></i>
+                                                    <i data-lucide="play"></i>
                                                 </div>
                                             </div>
 
@@ -151,7 +151,7 @@
                                             <div class="card-meta">
                                                 <span>{{ $itemYear }}</span>
                                                 <span class="rating">
-                                                    <i class="fas fa-star"></i>{{ number_format($itemRating, 1) }}
+                                                    <i data-lucide="star"></i>{{ number_format($itemRating, 1) }}
                                                 </span>
                                             </div>
                                         </div>
@@ -161,7 +161,7 @@
                             </div>
                         </div>
 
-                        <button class="slider-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                        <button class="slider-btn next-btn"><i data-lucide="chevron-right"></i></button>
                     </div>
                 </div>
             @endforeach

@@ -38,7 +38,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         :root {
@@ -194,6 +194,7 @@
             border: 1px solid transparent; transition: var(--transition);
         }
         .mobile-nav a i { color: var(--primary); font-size: 1.2rem; width: 24px; text-align: center; }
+        .mobile-nav a svg { color: var(--primary); width: 20px; height: 20px; }
 
         /* ===== HERO SECTION ===== */
         .hero {
@@ -312,8 +313,8 @@
             </nav>
 
             <div class="header-actions">
-                <a href="{{ url('/') }}" class="btn-outline"><i class="fas fa-laptop"></i> Acessar Web Player</a>
-                <a href="#download" class="btn-primary"><i class="fab fa-android"></i> Download App</a>
+                <a href="{{ url('/') }}" class="btn-outline"><i data-lucide="laptop"></i> Acessar Web Player</a>
+                <a href="#download" class="btn-primary"><i data-lucide="smartphone"></i> Download App</a>
 
                 <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
                     <span></span><span></span><span></span>
@@ -323,10 +324,10 @@
 
         <div class="mobile-menu" id="mobileMenu">
             <div class="mobile-nav">
-                <a href="#inicio"><i class="fas fa-home"></i> Início</a>
-                <a href="#recursos"><i class="fas fa-star"></i> Funcionalidades</a>
-                <a href="#download"><i class="fas fa-download"></i> Download APK</a>
-                <a href="{{ url('/') }}" style="color: var(--primary); border-color: var(--primary);"><i class="fas fa-globe"></i> Acessar Web Player</a>
+                <a href="#inicio"><i data-lucide="home"></i> Início</a>
+                <a href="#recursos"><i data-lucide="star"></i> Funcionalidades</a>
+                <a href="#download"><i data-lucide="download"></i> Download APK</a>
+                <a href="{{ url('/') }}" style="color: var(--primary); border-color: var(--primary);"><i data-lucide="globe"></i> Acessar Web Player</a>
             </div>
         </div>
     </header>
@@ -336,15 +337,15 @@
             <div class="container hero-grid">
                 <div class="hero-content">
                     <div class="hero-badge">
-                        <i class="fas fa-bolt"></i> Versão 2.5 Disponível
+                        <i data-lucide="zap"></i> Versão 2.5 Disponível
                     </div>
                     <h1 class="hero-title">O Universo do Entretenimento em <span>Um Só Lugar</span></h1>
                     <p class="hero-subtitle">
                         No <strong>FYNECINE</strong> você encontra o maior catálogo de filmes, séries, animes, canais de TV e esportes ao vivo. Totalmente grátis e sem anúncios.
                     </p>
                     <div class="hero-actions">
-                        <a href="#download" class="btn-primary"><i class="fas fa-download"></i> Baixar APK Grátis</a>
-                        <a href="{{ url('/') }}" class="btn-secondary"><i class="fas fa-play-circle"></i> Assistir na Web</a>
+                        <a href="#download" class="btn-primary"><i data-lucide="download"></i> Baixar APK Grátis</a>
+                        <a href="{{ url('/') }}" class="btn-secondary"><i data-lucide="play"></i> Assistir na Web</a>
                     </div>
                 </div>
 
@@ -353,11 +354,11 @@
                         <img src="https://placehold.co/1280x720/121214/8b5cf6?text=FYNECINE+Premium+Interface" alt="Interface do App">
                     </div>
                     <div class="float-card float-1">
-                        <i class="fas fa-video"></i>
+                        <i data-lucide="video"></i>
                         <div><h5>7.000+ Filmes</h5><p>Em Full HD</p></div>
                     </div>
                     <div class="float-card float-2">
-                        <i class="fas fa-satellite-dish"></i>
+                        <i data-lucide="antenna"></i>
                         <div><h5>TV ao Vivo</h5><p>Canais 24h</p></div>
                     </div>
                 </div>
@@ -380,9 +381,9 @@
                         <h2>Catálogo infinito na palma da sua mão.</h2>
                         <p>Diga adeus a dezenas de assinaturas. O FYNECINE unifica lançamentos, séries clássicas e animes com qualidade HD.</p>
                         <ul class="feature-list">
-                            <li><i class="fas fa-check-circle"></i> Atualizações diárias.</li>
-                            <li><i class="fas fa-check-circle"></i> Qualidade de vídeo adaptável.</li>
-                            <li><i class="fas fa-check-circle"></i> Continue de onde parou.</li>
+                            <li><i data-lucide="check-circle"></i> Atualizações diárias.</li>
+                            <li><i data-lucide="check-circle"></i> Qualidade de vídeo adaptável.</li>
+                            <li><i data-lucide="check-circle"></i> Continue de onde parou.</li>
                         </ul>
                     </div>
                     <div class="feature-visual">
@@ -401,8 +402,8 @@
                         <h2>Pronto para começar?</h2>
                         <p>Baixe o aplicativo agora mesmo ou acesse pelo navegador.</p>
                         <div class="cta-buttons">
-                            <a href="#" class="btn-primary"><i class="fab fa-android"></i> Baixar para Android</a>
-                            <a href="{{ url('/') }}" class="btn-outline"><i class="fas fa-laptop"></i> Acessar Web Player</a>
+                            <a href="#" class="btn-primary"><i data-lucide="smartphone"></i> Baixar para Android</a>
+                            <a href="{{ url('/') }}" class="btn-outline"><i data-lucide="laptop"></i> Acessar Web Player</a>
                         </div>
                     </div>
                 </div>
@@ -416,8 +417,8 @@
                 <a href="#" class="logo"><h3>FYNECINE</h3></a>
                 <p>O FYNECINE não hospeda arquivos em seus servidores. O conteúdo é indexado de forma automática.</p>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-telegram-plane"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Telegram"><i data-lucide="send"></i></a>
+                    <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
                 </div>
             </div>
             <div>
@@ -473,6 +474,8 @@
                 });
             });
         });
+        
+        lucide.createIcons();
     </script>
 </body>
 </html>

@@ -45,13 +45,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
     media="print" onload="this.media='all'">
 
-  {{-- FONT AWESOME (carregamento assíncrono real) --}}
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style"
-    onload="this.onload=null;this.rel='stylesheet'">
 
-  <noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  </noscript>
 
   {{-- CSS CRÍTICO INLINE (acima da dobra) --}}
   <style>
@@ -131,6 +125,14 @@
 
   {{-- JS --}}
   <script src="{{ asset('js/app.js') }}"></script>
+
+  {{-- LUCIDE ICONS --}}
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      lucide.createIcons();
+    });
+  </script>
 
   @yield('scripts')
 

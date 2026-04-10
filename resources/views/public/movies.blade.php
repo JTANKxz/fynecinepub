@@ -55,7 +55,7 @@
                         
                         $isSeries = ($item->type === 'series' || $item->type === 'serie' || isset($item->number_of_seasons));
                         $itemType = $isSeries ? 'SÉRIE' : 'FILME';
-                        $itemIcon = $isSeries ? 'fas fa-tv' : 'fas fa-film';
+                        $itemIcon = $isSeries ? 'tv' : 'film';
                     @endphp
                     @php
                         // Somente gera rota se tiver slug
@@ -68,13 +68,13 @@
                         <div class="card-img-wrapper">
                             <div class="card-img" style="background-image: url('{{ $itemPoster }}')">
                                 @if(!$itemPoster)
-                                    <i class="{{ $itemIcon }} placeholder-icon"></i>
+                                    <i data-lucide="{{ $itemIcon }}" class="placeholder-icon"></i>
                                 @endif
                             </div>
                             <div class="card-badge">{{ $itemType }}</div>
                             <div class="card-overlay">
                                 <div class="play-circle">
-                                    <i class="fas fa-play"></i>
+                                    <i data-lucide="play"></i>
                                 </div>
                             </div>
                         </div>
@@ -83,14 +83,14 @@
                             <div class="card-meta">
                                 <span>{{ $itemYear }}</span>
                                 <span class="rating">
-                                    <i class="fas fa-star"></i>{{ number_format($itemRating, 1) }}
+                                    <i data-lucide="star"></i>{{ number_format($itemRating, 1) }}
                                 </span>
                             </div>
                         </div>
                     </a>
                 @empty
                     <div style="grid-column: 1/-1; text-align: center; padding: 100px 0; color: var(--text-muted);">
-                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                        <i data-lucide="search" style="width: 48px; height: 48px; margin-bottom: 20px; opacity: 0.5;"></i>
                         <p>Nenhum filme encontrado com os filtros selecionados.</p>
                         <a href="{{ url()->current() }}" class="btn-assistir" style="margin-top: 20px;">Limpar Filtros</a>
                     </div>
@@ -101,9 +101,9 @@
             @if($movies->hasPages())
                 <div class="pagination">
                     @if($movies->onFirstPage())
-                        <div class="page-btn disabled"><i class="fas fa-chevron-left"></i></div>
+                        <div class="page-btn disabled"><i data-lucide="chevron-left"></i></div>
                     @else
-                        <a href="{{ $movies->previousPageUrl() }}" class="page-btn"><i class="fas fa-chevron-left"></i></a>
+                        <a href="{{ $movies->previousPageUrl() }}" class="page-btn"><i data-lucide="chevron-left"></i></a>
                     @endif
 
                     {{-- Mostra um range de páginas --}}
@@ -129,9 +129,9 @@
                     @endif
 
                     @if($movies->hasMorePages())
-                        <a href="{{ $movies->nextPageUrl() }}" class="page-btn"><i class="fas fa-chevron-right"></i></a>
+                        <a href="{{ $movies->nextPageUrl() }}" class="page-btn"><i data-lucide="chevron-right"></i></a>
                     @else
-                        <div class="page-btn disabled"><i class="fas fa-chevron-right"></i></div>
+                        <div class="page-btn disabled"><i data-lucide="chevron-right"></i></div>
                     @endif
                 </div>
             @endif
