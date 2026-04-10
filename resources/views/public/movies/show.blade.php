@@ -4,12 +4,20 @@
 
 @php
     $backdrop = $movie->backdrop_path;
-    if ($backdrop && strpos($backdrop, '/') === 0) {
-        $backdrop = 'https://image.tmdb.org/t/p/original' . $backdrop;
+    if ($backdrop) {
+        if (strpos($backdrop, 'image.tmdb.org') !== false) {
+            $backdrop = str_replace('original', 'w1280', $backdrop);
+        } elseif (strpos($backdrop, '/') === 0) {
+            $backdrop = 'https://image.tmdb.org/t/p/w1280' . $backdrop;
+        }
     }
     $backdropFallback = $movie->poster_path;
-    if ($backdropFallback && strpos($backdropFallback, '/') === 0) {
-        $backdropFallback = 'https://image.tmdb.org/t/p/original' . $backdropFallback;
+    if ($backdropFallback) {
+        if (strpos($backdropFallback, 'image.tmdb.org') !== false) {
+            $backdropFallback = str_replace('original', 'w1280', $backdropFallback);
+        } elseif (strpos($backdropFallback, '/') === 0) {
+            $backdropFallback = 'https://image.tmdb.org/t/p/w1280' . $backdropFallback;
+        }
     }
 
     // AGGRESSIVE SEO TITLE & DESCRIPTION
@@ -109,8 +117,12 @@
                 <div class="poster-wrapper">
                     @php
                         $poster = $movie->poster_path;
-                        if ($poster && strpos($poster, '/') === 0) {
-                            $poster = 'https://image.tmdb.org/t/p/w500' . $poster;
+                        if ($poster) {
+                            if (strpos($poster, 'image.tmdb.org') !== false) {
+                                $poster = str_replace('original', 'w500', $poster);
+                            } elseif (strpos($poster, '/') === 0) {
+                                $poster = 'https://image.tmdb.org/t/p/w500' . $poster;
+                            }
                         }
                     @endphp
                     <img src="{{ $poster ?? 'https://placehold.co/400x600/18181b/8b5cf6?text=Sem+Poster' }}"
@@ -176,8 +188,12 @@
                                 @foreach ($movie->cast->sortBy('pivot.order') as $actor)
                                     @php
                                         $profile = $actor->profile_path;
-                                        if ($profile && strpos($profile, '/') === 0) {
-                                            $profile = 'https://image.tmdb.org/t/p/w185' . $profile;
+                                        if ($profile) {
+                                            if (strpos($profile, 'image.tmdb.org') !== false) {
+                                                $profile = str_replace(['original', 'w500'], 'w185', $profile);
+                                            } elseif (strpos($profile, '/') === 0) {
+                                                $profile = 'https://image.tmdb.org/t/p/w185' . $profile;
+                                            }
                                         }
                                         $avatarFallback =
                                             'https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-4-user-grey-d8fe57731f22442a9c18fb27a971256745c06bbc50776791fe2177a6c0f04adc.svg';
@@ -211,14 +227,27 @@
                                 @foreach ($similarMovies as $similar)
                                     @php
                                         $sPoster = $similar->poster_path;
-                                        if ($sPoster && strpos($sPoster, '/') === 0) {
-                                            $sPoster = 'https://image.tmdb.org/t/p/w342' . $sPoster;
+                                        if ($sPoster) {
+                                            if (strpos($sPoster, 'image.tmdb.org') !== false) {
+                                                $sPoster = str_replace(['original', 'w500', 'w300'], 'w342', $sPoster);
+                                            } elseif (strpos($sPoster, '/') === 0) {
+                                                $sPoster = 'https://image.tmdb.org/t/p/w342' . $sPoster;
+                                            }
                                         }
                                         $itemUrl = $similar->slug ? route('movies.show', $similar->slug) : 'javascript:void(0)';
                                     @endphp
                                     <a href="{{ $itemUrl }}" class="card">
                                         <div class="card-img-wrapper">
-                                            <div class="card-img" style="background-image: url('{{ $sPoster }}')"></div>
+                                            @if($sPoster)
+                                                <img src="{{ $sPoster }}" 
+                                                     srcset="{{ str_replace('w342', 'w185', $sPoster) }} 185w, {{ $sPoster }} 342w, {{ str_replace('w342', 'w500', $sPoster) }} 500w" 
+                                                     sizes="(max-width: 640px) 140px, 200px" 
+                                                     alt="{{ $similar->title }}" class="card-img" loading="lazy" decoding="async" width="300" height="450">
+                                            @else
+                                                <div class="card-img placeholder">
+                                                    <i data-lucide="film" class="placeholder-icon"></i>
+                                                </div>
+                                            @endif
                                             <div class="card-badge">FILME</div>
                                             <div class="card-overlay">
                                                 <div class="play-circle"><i data-lucide="play"></i></div>

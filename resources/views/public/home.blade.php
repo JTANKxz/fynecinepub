@@ -23,19 +23,22 @@
                                                         $type = $slider->content_type === 'movie' ? 'Filme' : 'Série';
                                                         $image = $slider->image_url ?? $content->backdrop_url ?? $content->poster_url;
 
-                                                        if ($image && strpos($image, '/') === 0) {
-                                                            // 🔥 TAMANHO CERTO PRO HERO
-                                                            $image = 'https://image.tmdb.org/t/p/w1280' . $image;
+                                                        if ($image) {
+                                                            if (strpos($image, 'image.tmdb.org') !== false) {
+                                                                $image = str_replace(['original', 'w500', 'w300'], 'w1280', $image);
+                                                            } elseif (strpos($image, '/') === 0) {
+                                                                $image = 'https://image.tmdb.org/t/p/w1280' . $image;
+                                                            }
                                                         }
                                                     @endphp
                                                     <div class="slide {{ $index === 0 ? 'active' : '' }}">
 
                                                         {{-- IMAGEM --}}
                                                         <img src="{{ $image }}" srcset="
-                                    {{ str_replace('w1280', 'w780', $image) }} 780w,
-                                    {{ str_replace('w1280', 'w1280', $image) }} 1280w
-                                  " sizes="100vw" alt="{{ $title }}" class="slide-bg" width="1280" height="720" decoding="async" @if($index === 0)
-                                fetchpriority="high" loading="eager" @else loading="lazy" @endif>
+                                                                    {{ str_replace('w1280', 'w780', $image) }} 780w,
+                                                                    {{ $image }} 1280w
+                                                                  " sizes="100vw" alt="{{ $title }}" class="slide-bg" width="1280" height="720" decoding="async" @if($index === 0)
+                                                                fetchpriority="high" loading="eager" @else loading="lazy" @endif>
 
                                                         <div class="slide-info">
                                                             <h2>{{ $title }}</h2>
@@ -111,8 +114,13 @@
                                         $itemYear = $item->release_year ?? $item->first_air_year;
                                         $itemRating = $item->rating;
                                         $itemPoster = $item->poster_url ?? $item->poster_path;
-                                        if ($itemPoster && strpos($itemPoster, '/') === 0)
-                                            $itemPoster = 'https://image.tmdb.org/t/p/w300' . $itemPoster;
+                                        if ($itemPoster) {
+                                            if (strpos($itemPoster, 'image.tmdb.org') !== false) {
+                                                $itemPoster = str_replace(['original', 'w500', 'w300'], 'w342', $itemPoster);
+                                            } elseif (strpos($itemPoster, '/') === 0) {
+                                                $itemPoster = 'https://image.tmdb.org/t/p/w342' . $itemPoster;
+                                            }
+                                        }
 
                                         $isSeries = ($item->type === 'series' || $item->type === 'serie' || isset($item->number_of_seasons));
                                         $itemType = $isSeries ? 'SÉRIE' : 'FILME';
@@ -128,7 +136,10 @@
                                         <div class="card-img-wrapper">
 
                                             @if($itemPoster)
-                                                <img src="{{ $itemPoster }}" srcset="{{ str_replace('w300', 'w185', $itemPoster) }} 185w, {{ str_replace('w300', 'w300', $itemPoster) }} 300w,{{ str_replace('w300', 'w500', $itemPoster) }} 500w" sizes="(max-width: 640px) 140px, 200px" alt="{{ $itemTitle }}" class="card-img" loading="lazy" decoding="async" width="300" height="450">
+                                                <img src="{{ $itemPoster }}" 
+                                                     srcset="{{ str_replace('w342', 'w185', $itemPoster) }} 185w, {{ $itemPoster }} 342w, {{ str_replace('w342', 'w500', $itemPoster) }} 500w" 
+                                                     sizes="(max-width: 640px) 140px, 200px" 
+                                                     alt="{{ $itemTitle }}" class="card-img" loading="lazy" decoding="async" width="300" height="450">
                                             @else
                                                 <div class="card-img placeholder">
                                                     <i data-lucide="{{ $itemIcon }}" class="placeholder-icon"></i>

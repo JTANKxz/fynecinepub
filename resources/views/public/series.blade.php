@@ -49,9 +49,13 @@
                         $itemTitle = $item->name;
                         $itemYear = $item->first_air_year;
                         $itemRating = $item->rating;
-                        $itemPoster = $item->poster_url ?? $item->poster_path;
-                        if ($itemPoster && strpos($itemPoster, '/') === 0)
-                            $itemPoster = 'https://image.tmdb.org/t/p/w500' . $itemPoster;
+                        if ($itemPoster) {
+                            if (strpos($itemPoster, 'image.tmdb.org') !== false) {
+                                $itemPoster = str_replace(['original', 'w500', 'w300'], 'w342', $itemPoster);
+                            } elseif (strpos($itemPoster, '/') === 0) {
+                                $itemPoster = 'https://image.tmdb.org/t/p/w342' . $itemPoster;
+                            }
+                        }
                         
                         $itemType = 'SÉRIE';
                         $itemIcon = 'tv';
@@ -61,11 +65,16 @@
                     @endphp
                     <a href="{{ $itemUrl }}" class="card">
                         <div class="card-img-wrapper">
-                            <div class="card-img" style="background-image: url('{{ $itemPoster }}')">
-                                @if(!$itemPoster)
+                            @if($itemPoster)
+                                <img src="{{ $itemPoster }}" 
+                                     srcset="{{ str_replace('w342', 'w185', $itemPoster) }} 185w, {{ $itemPoster }} 342w, {{ str_replace('w342', 'w500', $itemPoster) }} 500w" 
+                                     sizes="(max-width: 640px) 140px, 200px" 
+                                     alt="{{ $itemTitle }}" class="card-img" loading="lazy" decoding="async" width="300" height="450">
+                            @else
+                                <div class="card-img placeholder">
                                     <i data-lucide="{{ $itemIcon }}" class="placeholder-icon"></i>
-                                @endif
-                            </div>
+                                </div>
+                            @endif
                             <div class="card-badge">{{ $itemType }}</div>
                             <div class="card-overlay">
                                 <div class="play-circle">
