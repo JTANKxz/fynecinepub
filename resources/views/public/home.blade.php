@@ -34,10 +34,11 @@
                                                     <div class="slide {{ $index === 0 ? 'active' : '' }}">
 
                                                         {{-- IMAGEM --}}
-                                                        <img src="{{ $image }}" srcset="
-                                                                    {{ str_replace('w1280', 'w780', $image) }} 780w,
-                                                                    {{ $image }} 1280w
-                                                                  " sizes="100vw" alt="{{ $title }}" class="slide-bg" width="1280" height="720" decoding="async" @if($index === 0)
+                                                        @php
+                                                            $sliderSrc = "https://images.weserv.nl/?url=" . urlencode($image) . "&w=1280&output=webp&q=80";
+                                                            $sliderSet = "https://images.weserv.nl/?url=" . urlencode($image) . "&w=780&output=webp&q=80 780w, " . $sliderSrc . " 1280w";
+                                                        @endphp
+                                                        <img src="{{ $sliderSrc }}" srcset="{{ $sliderSet }}" sizes="100vw" alt="{{ $title }}" class="slide-bg" width="1280" height="720" decoding="async" @if($index === 0)
                                                                 fetchpriority="high" loading="eager" @else loading="lazy" @endif>
 
                                                         <div class="slide-info">
@@ -136,8 +137,12 @@
                                         <div class="card-img-wrapper">
 
                                             @if($itemPoster)
-                                                <img src="{{ $itemPoster }}" 
-                                                     srcset="{{ str_replace('w342', 'w185', $itemPoster) }} 185w, {{ $itemPoster }} 342w, {{ str_replace('w342', 'w500', $itemPoster) }} 500w" 
+                                                @php
+                                                    $cardSrc = "https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=342&output=webp&q=80";
+                                                    $cardSet = "https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=185&output=webp&q=80 185w, " . $cardSrc . " 342w, https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=500&output=webp&q=80 500w";
+                                                @endphp
+                                                <img src="{{ $cardSrc }}" 
+                                                     srcset="{{ $cardSet }}" 
                                                      sizes="(max-width: 640px) 140px, 200px" 
                                                      alt="{{ $itemTitle }}" class="card-img" loading="lazy" decoding="async" width="300" height="450">
                                             @else

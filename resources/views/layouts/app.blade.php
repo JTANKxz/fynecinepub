@@ -45,6 +45,11 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
     media="print" onload="this.media='all'">
 
+  {{-- PRELOADS CRÍTICOS --}}
+  <link rel="preload" href="{{ asset('css/app.css') }}" as="style">
+  <link rel="preload" href="{{ asset('js/app.js') }}" as="script">
+  <link rel="preload" href="{{ asset('js/lucide.min.js') }}" as="script">
+
 
 
   {{-- CSS CRÍTICO INLINE (acima da dobra) --}}
@@ -138,13 +143,14 @@
   @include('partials.footer')
 
   {{-- JS --}}
-  <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ asset('js/app.js') }}" defer></script>
+  <script src="{{ asset('js/lucide.min.js') }}" defer></script>
 
-  {{-- LUCIDE ICONS --}}
-  <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      lucide.createIcons();
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
     });
   </script>
 

@@ -71,8 +71,12 @@
                     <a href="{{ $itemUrl }}" class="card">
                         <div class="card-img-wrapper">
                             @if($itemPoster)
-                                <img src="{{ $itemPoster }}" 
-                                     srcset="{{ str_replace('w342', 'w185', $itemPoster) }} 185w, {{ $itemPoster }} 342w, {{ str_replace('w342', 'w500', $itemPoster) }} 500w" 
+                                @php
+                                    $cardSrc = "https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=342&output=webp&q=80";
+                                    $cardSet = "https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=185&output=webp&q=80 185w, " . $cardSrc . " 342w, https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=500&output=webp&q=80 500w";
+                                @endphp
+                                <img src="{{ $cardSrc }}" 
+                                     srcset="{{ $cardSet }}" 
                                      sizes="(max-width: 640px) 140px, 200px" 
                                      alt="{{ $itemTitle }}" class="card-img" loading="lazy" decoding="async" width="300" height="450">
                             @else

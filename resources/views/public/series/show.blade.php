@@ -79,8 +79,11 @@
     </script>
     @endpush
 
+    @php
+        $optimizedBackdrop = "https://images.weserv.nl/?url=" . urlencode($backdrop ?? $backdropFallback) . "&w=1280&output=webp&q=80";
+    @endphp
     <div class="backdrop-container" id="backdropContainer"
-        style="background-image: url('{{ $backdrop ?? $backdropFallback }}');">
+        style="background-image: url('{{ $optimizedBackdrop }}');">
         <div class="backdrop-overlay"></div>
     </div>
 
@@ -126,7 +129,10 @@
                             }
                         }
                     @endphp
-                    <img src="{{ $poster ?? 'https://placehold.co/400x600/18181b/8b5cf6?text=Sem+Poster' }}"
+                    @php
+                        $optimizedPoster = "https://images.weserv.nl/?url=" . urlencode($poster ?? 'https://placehold.co/400x600/18181b/8b5cf6?text=Sem+Poster') . "&w=500&output=webp&q=80";
+                    @endphp
+                    <img src="{{ $optimizedPoster }}"
                         alt="Assistir Série {{ $serie->name }} Online Grátis HD" fetchpriority="high">
                 </div>
 
@@ -207,7 +213,10 @@
                              data-episode-id="{{ $episode->id }}"
                              data-links='@json($episode->linksData)'>
                             <div class="episode-thumb">
-                                <img src="{{ $still ?? 'https://placehold.co/320x180/18181b/8b5cf6?text=Episódio+'.$episode->episode_number }}" alt="{{ $episode->name }}">
+                                @php
+                                    $optimizedStill = "https://images.weserv.nl/?url=" . urlencode($still ?? 'https://placehold.co/320x180/18181b/8b5cf6?text=Episódio+'.$episode->episode_number) . "&w=320&h=180&fit=cover&output=webp&q=80";
+                                @endphp
+                                <img src="{{ $optimizedStill }}" alt="{{ $episode->name }}" loading="lazy">
                                 <div class="episode-play-overlay"><i data-lucide="play"></i></div>
                             </div>
                             <div class="episode-info">
@@ -252,7 +261,11 @@
                                     @endphp
                                     <div class="cast-card">
                                         <div class="cast-avatar">
-                                            <img src="{{ $profile ?? $avatarFallback }}" alt="{{ $actor->name }}">
+                                            @php
+                                                $castUrl = $profile ?? $avatarFallback;
+                                                $optimizedCast = "https://images.weserv.nl/?url=" . urlencode($castUrl) . "&w=185&h=230&fit=cover&output=webp&q=80";
+                                            @endphp
+                                            <img src="{{ $optimizedCast }}" alt="{{ $actor->name }}" loading="lazy">
                                         </div>
                                         <h5 class="cast-name">{{ $actor->name }}</h5>
                                         <span class="cast-role">{{ $actor->pivot->character }}</span>
@@ -291,8 +304,12 @@
                                     <a href="{{ $itemUrl }}" class="card">
                                         <div class="card-img-wrapper">
                                             @if($sPoster)
-                                                <img src="{{ $sPoster }}" 
-                                                     srcset="{{ str_replace('w342', 'w185', $sPoster) }} 185w, {{ $sPoster }} 342w, {{ str_replace('w342', 'w500', $sPoster) }} 500w" 
+                                                @php
+                                                    $sCardSrc = "https://images.weserv.nl/?url=" . urlencode($sPoster) . "&w=342&output=webp&q=80";
+                                                    $sCardSet = "https://images.weserv.nl/?url=" . urlencode($sPoster) . "&w=185&output=webp&q=80 185w, " . $sCardSrc . " 342w, https://images.weserv.nl/?url=" . urlencode($sPoster) . "&w=500&output=webp&q=80 500w";
+                                                @endphp
+                                                <img src="{{ $sCardSrc }}" 
+                                                     srcset="{{ $sCardSet }}" 
                                                      sizes="(max-width: 640px) 140px, 200px" 
                                                      alt="{{ $similar->name }}" class="card-img" loading="lazy" decoding="async" width="300" height="450">
                                             @else
