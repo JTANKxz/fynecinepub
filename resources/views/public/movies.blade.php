@@ -72,8 +72,8 @@
                         <div class="card-img-wrapper">
                             @if($itemPoster)
                                 @php
-                                    $cardSrc = "https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=342&output=webp&q=80";
-                                    $cardSet = "https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=185&output=webp&q=80 185w, " . $cardSrc . " 342w, https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=500&output=webp&q=80 500w";
+                                    $cardSrc = "https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=250&output=webp&q=70";
+                                    $cardSet = "https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=180&output=webp&q=70 180w, " . $cardSrc . " 250w, https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=342&output=webp&q=70 342w, https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=500&output=webp&q=70 500w";
                                 @endphp
                                 <img src="{{ $cardSrc }}" 
                                      srcset="{{ $cardSet }}" 

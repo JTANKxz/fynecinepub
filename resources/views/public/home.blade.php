@@ -35,8 +35,8 @@
 
                                                         {{-- IMAGEM --}}
                                                         @php
-                                                            $sliderSrc = "https://images.weserv.nl/?url=" . urlencode($image) . "&w=1280&output=webp&q=80";
-                                                            $sliderSet = "https://images.weserv.nl/?url=" . urlencode($image) . "&w=780&output=webp&q=80 780w, " . $sliderSrc . " 1280w";
+                                                            $sliderSrc = "https://images.weserv.nl/?url=" . urlencode($image) . "&w=1280&output=webp&q=70";
+                                                            $sliderSet = "https://images.weserv.nl/?url=" . urlencode($image) . "&w=700&output=webp&q=70 700w, " . $sliderSrc . " 1280w";
                                                         @endphp
                                                         <img src="{{ $sliderSrc }}" srcset="{{ $sliderSet }}" sizes="100vw" alt="{{ $title }}" class="slide-bg" width="1280" height="720" decoding="async" @if($index === 0)
                                                                 fetchpriority="high" loading="eager" @else loading="lazy" @endif>
@@ -138,8 +138,8 @@
 
                                             @if($itemPoster)
                                                 @php
-                                                    $cardSrc = "https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=342&output=webp&q=80";
-                                                    $cardSet = "https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=185&output=webp&q=80 185w, " . $cardSrc . " 342w, https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=500&output=webp&q=80 500w";
+                                                    $cardSrc = "https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=250&output=webp&q=70";
+                                                    $cardSet = "https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=180&output=webp&q=70 180w, " . $cardSrc . " 250w, https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=342&output=webp&q=70 342w, https://images.weserv.nl/?url=" . urlencode($itemPoster) . "&w=500&output=webp&q=70 500w";
                                                 @endphp
                                                 <img src="{{ $cardSrc }}" 
                                                      srcset="{{ $cardSet }}" 

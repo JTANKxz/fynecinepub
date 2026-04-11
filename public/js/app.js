@@ -77,19 +77,34 @@ scrollSections.forEach((section, index) => {
 
     if (!prev || !next || !wrapper) return;
 
-    let ticking = false;
+    // Estado de visibilidade dos botões para evitar re-calculos e reflows
+    let btnState = { prev: true, next: true };
 
     const checkButtons = () => {
         if (!ticking) {
             requestAnimationFrame(() => {
                 const cache = layoutCache.get(index);
-                if (!cache) return;
+                if (!cache) {
+                    ticking = false;
+                    return;
+                }
                 
-                const maxScroll = cache.scrollWidth - cache.width;
+                // LEITURA (Batch Read)
                 const currentScroll = wrapper.scrollLeft;
+                const maxScroll = cache.scrollWidth - cache.width;
+                
+                const shouldHidePrev = currentScroll <= 10;
+                const shouldHideNext = currentScroll >= maxScroll - 10;
 
-                prev.classList.toggle('hidden', currentScroll <= 10);
-                next.classList.toggle('hidden', currentScroll >= maxScroll - 10);
+                // ESCRITA (Somente se o estado mudou)
+                if (btnState.prev !== shouldHidePrev) {
+                    prev.classList.toggle('hidden', shouldHidePrev);
+                    btnState.prev = shouldHidePrev;
+                }
+                if (btnState.next !== shouldHideNext) {
+                    next.classList.toggle('hidden', shouldHideNext);
+                    btnState.next = shouldHideNext;
+                }
 
                 ticking = false;
             });
