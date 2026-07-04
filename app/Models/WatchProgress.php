@@ -21,6 +21,9 @@ class WatchProgress extends Model
         'series_id',
         'link_id',
         'link_type',
+        'link_url',
+        'link_headers',
+        'link_cookies',
     ];
 
     protected $casts = [
@@ -79,6 +82,9 @@ class WatchProgress extends Model
                     'quality' => $l->quality,
                     'player_sub' => $l->player_sub,
                 ]),
+                'last_link_url' => $this->link_url,
+                'last_link_headers' => $this->link_headers,
+                'last_link_cookies' => $this->link_cookies,
             ];
         } elseif ($this->content_type === 'episode') {
             $episode = $this->episode;
@@ -109,9 +115,13 @@ class WatchProgress extends Model
                     'skip_ending' => [
                         'start' => $l->skip_ending_start,
                         'end' => $l->skip_ending_end,
-                    ]
+                    ],
+                    'link_url' => $this->link_url
                 ]),
                 'next_episode' => $this->getNextEpisodeMetadata($episode),
+                'last_link_url' => $this->link_url,
+                'last_link_headers' => $this->link_headers,
+                'last_link_cookies' => $this->link_cookies,
             ];
         }
         return null;
@@ -190,7 +200,10 @@ class WatchProgress extends Model
         ?int $episodeId = null,
         ?int $seriesId = null,
         ?string $linkId = null,
-        ?string $linkType = null
+        ?string $linkType = null,
+        ?string $linkUrl = null,
+        ?string $linkHeaders = null,
+        ?string $linkCookies = null
     ): ?self {
         // Não salva se progresso < 30 segundos
         if ($progress < 30) {
@@ -228,6 +241,9 @@ class WatchProgress extends Model
                 'series_id' => $seriesId,
                 'link_id' => $linkId,
                 'link_type' => $linkType,
+                'link_url' => $linkUrl,
+                'link_headers' => $linkHeaders,
+                'link_cookies' => $linkCookies,
                 'updated_at' => now(),
             ]
         );

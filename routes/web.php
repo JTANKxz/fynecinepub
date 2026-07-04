@@ -1,21 +1,28 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MovieController;
-use App\Http\Controllers\SeriesController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\GenreController;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/filmes', [MovieController::class, 'index']);
-Route::get('/series', [SeriesController::class, 'index'])->name('series.index');
-Route::get('/pesquisa', [SearchController::class, 'index'])->name('search');
-Route::get('/genero/{slug}', [GenreController::class, 'show'])->name('genre.show');
-
-Route::get('/filmes/{slug}', [MovieController::class, 'show'])->name('movies.show');
-Route::get('/series/{slug}', [SeriesController::class, 'show'])->name('series.show');
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\Public\PublicHomeController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\SitemapController;
-Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
-Route::get('/inicio', function () { return view('public.landing'); })->name('landing');
+// Rotas Frontend (Públicas)
+Route::get('/', [PublicHomeController::class, 'index'])->name('home');
+
+Route::controller(FrontendController::class)->group(function () {
+    Route::get('/filme/{slug}', 'movie')->name('frontend.movie');
+    Route::get('/serie/{slug}', 'serie')->name('frontend.serie');
+    Route::get('/serie/{slug}/temporada/{season}/episodio/{episode}', 'episode')->name('frontend.episode');
+    Route::get('/busca', 'search')->name('frontend.search');
+    Route::get('/genero/{slug}', 'genre')->name('frontend.genre');
+    Route::get('/estudio/{slug}', 'network')->name('frontend.network');
+    Route::get('/assistir/{slug}', 'player')->name('frontend.player');
+    Route::get('/baixar-app', 'appDownload')->name('frontend.app-download');
+});
+
+// Sitemap
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
+// Rotas Públicas (Legal)
+Route::get('/terms', [PageController::class, 'terms'])->name('terms');
+Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');

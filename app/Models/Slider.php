@@ -49,6 +49,6 @@ class Slider extends Model
     {
         $content = $this->content;
         if (!$content) return null;
-        return $content->backdrop_path ?? $content->poster_path ?? null;
+        return $content->backdrop_url ?? $content->poster_url ?? null;
     }
 }

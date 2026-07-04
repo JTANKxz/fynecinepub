@@ -71,7 +71,17 @@ class AppConfig extends Model
         'bunny_security_key',
         'bunny_cdn_url',
         'bunny_mp4_key',
+        'rewards_status',
         'bunny_mp4_host',
+        'is_adult_active',
+        'default_avatar_p1',
+        'default_avatar_p2',
+        'default_avatar_p3',
+        'default_avatar_p4',
+        'default_avatar_p5',
+        'default_avatar_p6',
+        'default_avatar_kids',
+        'default_avatar_kids_url',
     ];
 
     protected $casts = [
@@ -98,7 +108,16 @@ class AppConfig extends Model
         'ads_interstitial_status' => 'boolean',
         'ads_native_status' => 'boolean',
         'ads_rewarded_status' => 'boolean',
+        'rewards_status' => 'boolean',
+        'is_adult_active' => 'boolean',
         'interstitial_interval' => 'integer',
+        'default_avatar_p1' => 'integer',
+        'default_avatar_p2' => 'integer',
+        'default_avatar_p3' => 'integer',
+        'default_avatar_p4' => 'integer',
+        'default_avatar_p5' => 'integer',
+        'default_avatar_p6' => 'integer',
+        'default_avatar_kids' => 'integer',
     ];
 
     /**

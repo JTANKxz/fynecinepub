@@ -24,19 +24,21 @@ class Movie extends Model
         'content_category_id',
         'tag_text',
         'tag_expires_at',
-        'use_autoembed'
+        'use_autoembed',
+        'excluded_autoembeds'
     ];
 
     protected $casts = [
         'tag_expires_at' => 'datetime',
         'use_autoembed' => 'boolean',
+        'excluded_autoembeds' => 'array',
     ];
 
     public function contentCategory()
     {
         return $this->belongsTo(ContentCategory::class);
     }
-
+    
     protected $appends = ['type', 'api_tag_text'];
 
     public function getTypeAttribute()

@@ -14,26 +14,36 @@ class Profile extends Model
         'avatar',
         'is_kids',
         'pin',
-        'is_main'
+        'is_main',
+        'is_adult_enabled',
+        'adult_pin'
     ];
 
     protected $casts = [
         'is_kids' => 'boolean',
         'is_main' => 'boolean',
+        'is_adult_enabled' => 'boolean',
     ];
 
     protected $hidden = [
-        'pin'
+        'pin',
+        'adult_pin'
     ];
 
     protected $appends = [
         'has_pin',
+        'has_adult_pin',
         'avatar_url',
     ];
 
     public function getHasPinAttribute(): bool
     {
         return !empty($this->pin);
+    }
+
+    public function getHasAdultPinAttribute(): bool
+    {
+        return !empty($this->adult_pin);
     }
 
     public function getAvatarUrlAttribute(): ?string

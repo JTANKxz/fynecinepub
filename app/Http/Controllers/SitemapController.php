@@ -8,17 +8,13 @@ use Illuminate\Http\Response;
 
 class SitemapController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
-        $movies = Movie::select('slug', 'updated_at')->latest()->get();
-        $series = Serie::select('slug', 'updated_at')->latest()->get();
+        $movies = Movie::select('slug', 'updated_at')->orderBy('updated_at', 'desc')->get();
+        $series = Serie::select('slug', 'updated_at')->orderBy('updated_at', 'desc')->get();
 
-        $content = view('public.sitemap', [
-            'movies' => $movies,
-            'series' => $series,
-        ])->render();
+        $content = view('frontend.sitemap', compact('movies', 'series'))->render();
 
-        return response($content, 200)
-            ->header('Content-Type', 'text/xml');
+        return response($content, 200)->header('Content-Type', 'text/xml; charset=UTF-8');
     }
 }
