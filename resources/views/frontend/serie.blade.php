@@ -8,8 +8,24 @@
         $appName = $settings->app_name ?? 'FYNECINE';
         $overviewSnippet = $serie->overview ? Str::limit($serie->overview, 120) : '';
         $metaDescription = "Assistir série {$serie->name} online grátis, dublado e legendado. Todas as temporadas completas em HD. {$overviewSnippet}";
-        $posterImage = $serie->poster_path ? 'https://image.tmdb.org/t/p/w500' . $serie->poster_path : asset('img/no-poster.jpg');
-        $backdropImage = $serie->backdrop_path ? 'https://image.tmdb.org/t/p/w1280' . $serie->backdrop_path : asset('img/no-backdrop.jpg');
+        $normalizeImage = function ($value) {
+            if (empty($value)) {
+                return null;
+            }
+
+            if (is_string($value) && preg_match('#^https?://#i', $value)) {
+                return $value;
+            }
+
+            if (is_string($value) && Str::startsWith($value, '/')) {
+                return url($value);
+            }
+
+            return $value;
+        };
+        $posterImage = $normalizeImage($serie->poster_path) ?: asset('img/no-poster.jpg');
+        $backdropImage = $normalizeImage($serie->backdrop_path) ?: asset('img/no-backdrop.jpg');
+        $previewImage = $posterImage ?: $backdropImage;
         $genres = $serie->genres ? $serie->genres->pluck('name')->join(', ') : '';
         $releaseYear = $serie->first_air_year ?? ($serie->first_air_date ? date('Y', strtotime($serie->first_air_date)) : '');
         $rating = $serie->rating ?? $serie->vote_average ?? 0;
@@ -22,7 +38,10 @@
     <meta property="og:site_name" content="{{ $appName }}">
     <meta property="og:title" content="Assistir {{ $serie->name }} Online Grátis">
     <meta property="og:description" content="{{ $metaDescription }}">
-    <meta property="og:image" content="{{ $backdropImage }}">
+    <meta property="og:image" content="{{ $previewImage }}">
+    <meta property="og:image:secure_url" content="{{ $previewImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="video.tv_show">
     @if($releaseYear)
@@ -32,7 +51,8 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Assistir {{ $serie->name }} Online - {{ $appName }}">
     <meta name="twitter:description" content="{{ $metaDescription }}">
-    <meta name="twitter:image" content="{{ $backdropImage }}">
+    <meta name="twitter:image" content="{{ $previewImage }}">
+    <meta name="twitter:image:alt" content="Preview de {{ $serie->name }}">
 
     <script type="application/ld+json">
     {

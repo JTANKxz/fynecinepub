@@ -8,8 +8,24 @@
         $appName = $settings->app_name ?? 'FYNECINE';
         $overviewSnippet = $movie->overview ? Str::limit($movie->overview, 120) : '';
         $metaDescription = "Assistir filme {$movie->title} online grátis completo, dublado e legendado em HD. {$overviewSnippet}";
-        $posterImage = $movie->poster_path ? 'https://image.tmdb.org/t/p/w500' . $movie->poster_path : asset('img/no-poster.jpg');
-        $backdropImage = $movie->backdrop_path ? 'https://image.tmdb.org/t/p/w1280' . $movie->backdrop_path : asset('img/no-backdrop.jpg');
+        $normalizeImage = function ($value) {
+            if (empty($value)) {
+                return null;
+            }
+
+            if (is_string($value) && preg_match('#^https?://#i', $value)) {
+                return $value;
+            }
+
+            if (is_string($value) && Str::startsWith($value, '/')) {
+                return url($value);
+            }
+
+            return $value;
+        };
+        $posterImage = $normalizeImage($movie->poster_path) ?: asset('img/no-poster.jpg');
+        $backdropImage = $normalizeImage($movie->backdrop_path) ?: asset('img/no-backdrop.jpg');
+        $previewImage = $posterImage ?: $backdropImage;
         $genres = $movie->genres ? $movie->genres->pluck('name')->join(', ') : '';
         $releaseYear = $movie->release_year ?? '';
         $rating = $movie->rating ?? $movie->vote_average ?? 0;
@@ -22,7 +38,10 @@
     <meta property="og:site_name" content="{{ $appName }}">
     <meta property="og:title" content="Assistir {{ $movie->title }} Online Grátis Dublado">
     <meta property="og:description" content="{{ $metaDescription }}">
-    <meta property="og:image" content="{{ $backdropImage }}">
+    <meta property="og:image" content="{{ $previewImage }}">
+    <meta property="og:image:secure_url" content="{{ $previewImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="video.movie">
     @if($releaseYear)
@@ -32,7 +51,8 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Assistir {{ $movie->title }} Online - {{ $appName }}">
     <meta name="twitter:description" content="{{ $metaDescription }}">
-    <meta name="twitter:image" content="{{ $backdropImage }}">
+    <meta name="twitter:image" content="{{ $previewImage }}">
+    <meta name="twitter:image:alt" content="Preview de {{ $movie->title }}">
 
     <script type="application/ld+json">
     {
