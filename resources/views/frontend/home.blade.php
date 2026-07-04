@@ -316,7 +316,9 @@
             @foreach($sliders as $index => $slider)
                 @php
                     $content = $slider->content_type === 'movie' ? $slider->movie : $slider->serie;
-                    if (!$content) continue;
+                @endphp
+                @if(!$content) @continue @endif
+                @php
                     $title = $content->title ?? $content->name;
                     $image = $content->backdrop_path
                         ? 'https://image.tmdb.org/t/p/w1280' . $content->backdrop_path
@@ -359,8 +361,9 @@
     @foreach($sections as $sectionIdx => $section)
         @php
             $items = $section->resolveItems();
-            if ($items->isEmpty()) continue;
-
+        @endphp
+        @if($items->isEmpty()) @continue @endif
+        @php
             // Ícone baseado no tipo da seção
             $icon = match($section->type) {
                 'trending', 'top_10' => 'fas fa-fire',
@@ -400,7 +403,9 @@
                         // Pula itens que não são filmes/séries (ex: events, upcoming, networks)
                         $isMovie = isset($item->title) && isset($item->slug);
                         $isSerie = isset($item->name) && isset($item->slug);
-                        if (!$isMovie && !$isSerie) continue;
+                    @endphp
+                    @if(!$isMovie && !$isSerie) @continue @endif
+                    @php
 
                         $itemTitle   = $isMovie ? $item->title : $item->name;
                         $itemImage   = $item->poster_path
