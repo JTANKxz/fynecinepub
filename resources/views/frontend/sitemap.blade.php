@@ -32,21 +32,33 @@
     </url>
 
     @foreach($movies as $movie)
-    <url>
-        <loc>{{ route('frontend.movie', $movie->slug) }}</loc>
-        <lastmod>{{ $movie->updated_at->toAtomString() }}</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
+        @php
+            $movieSlug = trim((string) ($movie->slug ?? ''));
+            $movieUpdatedAt = $movie->updated_at ?? null;
+        @endphp
+        @if($movieSlug !== '')
+        <url>
+            <loc>{{ route('frontend.movie', $movieSlug) }}</loc>
+            <lastmod>{{ $movieUpdatedAt ? $movieUpdatedAt->toAtomString() : now()->toAtomString() }}</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>0.8</priority>
+        </url>
+        @endif
     @endforeach
 
     @foreach($series as $serie)
-    <url>
-        <loc>{{ route('frontend.serie', $serie->slug) }}</loc>
-        <lastmod>{{ $serie->updated_at->toAtomString() }}</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
+        @php
+            $serieSlug = trim((string) ($serie->slug ?? ''));
+            $serieUpdatedAt = $serie->updated_at ?? null;
+        @endphp
+        @if($serieSlug !== '')
+        <url>
+            <loc>{{ route('frontend.serie', $serieSlug) }}</loc>
+            <lastmod>{{ $serieUpdatedAt ? $serieUpdatedAt->toAtomString() : now()->toAtomString() }}</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>0.8</priority>
+        </url>
+        @endif
     @endforeach
 
 </urlset>
