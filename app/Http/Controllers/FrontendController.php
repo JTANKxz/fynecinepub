@@ -85,9 +85,11 @@ class FrontendController extends Controller
         $season = Season::where('series_id', $serie->id)->where('season_number', $seasonNumber)->firstOrFail();
         $episode = Episode::with('links')->where('season_id', $season->id)->where('episode_number', $episodeNumber)->firstOrFail();
         
-        $otherEpisodes = Episode::where('season_id', $season->id)->orderBy('episode_number', 'asc')->get();
-        $prevEp = $otherEpisodes->where('episode_number', '<', $episodeNumber)->last();
-        $nextEp = $otherEpisodes->where('episode_number', '>', $episodeNumber)->first();
+        $otherEpisodes = Episode::where('season_id', $season->id)
+            ->orderBy('episode_number', 'asc')
+            ->get();
+        $prevEp = $otherEpisodes->where('episode_number', '<', (int) $episodeNumber)->last();
+        $nextEp = $otherEpisodes->where('episode_number', '>', (int) $episodeNumber)->first();
         
         return view('frontend.episode', compact('serie', 'season', 'episode', 'otherEpisodes', 'prevEp', 'nextEp'));
     }

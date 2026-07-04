@@ -24,12 +24,12 @@
 
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
+      "@@context": "https://schema.org",
+      "@@type": "WebSite",
       "name": "{{ $appName }}",
       "url": "{{ url('/') }}",
       "potentialAction": {
-        "@type": "SearchAction",
+        "@@type": "SearchAction",
         "target": "{{ url('/busca') }}?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
@@ -158,7 +158,7 @@
     }
 
     /* Slider responsive */
-    @media (max-width: 600px) {
+    @@media (max-width: 600px) {
         .hero-slider {
             height: 55vw;
             max-height: 300px;
@@ -198,11 +198,11 @@
         .slider-dots span { width: 6px; height: 6px; }
         .slider-dots span.active { width: 18px; }
     }
-    @media (min-width: 601px) and (max-width: 1024px) {
+    @@media (min-width: 601px) and (max-width: 1024px) {
         .hero-slider { height: 45vw; max-height: 380px; }
         .slide-content h2 { font-size: 26px; }
     }
-    @media (min-width: 1025px) {
+    @@media (min-width: 1025px) {
         .hero-slider {
             max-height: 480px;
             margin: 16px 40px 36px;
@@ -220,7 +220,7 @@
         padding: 0 20px 32px;
         animation: fadeUp 0.5s ease both;
     }
-    @keyframes fadeUp {
+    @@keyframes fadeUp {
         from { opacity: 0; transform: translateY(18px); }
         to { opacity: 1; transform: translateY(0); }
     }
@@ -291,16 +291,16 @@
     }
     .card:hover .card-img { transform: scale(1.04); }
 
-    @media (max-width: 600px) {
+    @@media (max-width: 600px) {
         .card { flex: 0 0 105px; width: 105px; border-radius: 10px; }
         .section { padding: 0 12px 24px; }
         .scroll-horizontal { gap: 10px; }
         .section-header h3 { font-size: 17px; }
     }
-    @media (min-width: 601px) {
+    @@media (min-width: 601px) {
         .card { flex: 0 0 155px; width: 155px; }
     }
-    @media (min-width: 1025px) {
+    @@media (min-width: 1025px) {
         .card { flex: 0 0 180px; width: 180px; }
         .section { padding: 0 40px 36px; }
     }

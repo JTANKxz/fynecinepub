@@ -36,14 +36,14 @@
 
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "TVSeries",
+      "@@context": "https://schema.org",
+      "@@type": "TVSeries",
       "name": "{{ $serie->name }}",
       "image": "{{ $posterImage }}",
       "description": "{{ $metaDescription }}",
       @if($rating > 0)
       "aggregateRating": {
-        "@type": "AggregateRating",
+        "@@type": "AggregateRating",
         "ratingValue": "{{ number_format($rating, 1) }}",
         "bestRating": "10",
         "worstRating": "1",
@@ -62,7 +62,7 @@
       "actor": [
         @foreach($serie->cast->take(5) as $actor)
         {
-          "@type": "Person",
+          "@@type": "Person",
           "name": "{{ $actor->name }}"
         }{{ !$loop->last ? ',' : '' }}
         @endforeach
@@ -516,7 +516,7 @@
         display: flex;
     }
 
-    @keyframes fadeInModal {
+    @@keyframes fadeInModal {
         from { opacity: 0; transform: scale(0.95); }
         to { opacity: 1; transform: scale(1); }
     }
@@ -638,7 +638,7 @@
     }
 
     /* Responsividade geral */
-    @media (max-width: 600px) {
+    @@media (max-width: 600px) {
         .details-backdrop { height: 50vh; min-height: 280px; max-height: 400px; padding: 16px 16px 0; }
         .details-content-wrapper { margin-top: -15vh; padding: 0 16px 20px; }
         .details-content h1 { font-size: 20px; margin-bottom: 2px; }
@@ -662,7 +662,7 @@
         .temporadas-scroll, .episodios-scroll { gap: 8px; padding-bottom: 4px; }
     }
 
-    @media (min-width: 601px) {
+    @@media (min-width: 601px) {
         .action-icons { gap: 28px; }
         .btn-assistir-full { width: auto; min-width: 200px; }
         .details-content-wrapper { padding-left: 40px; padding-right: 40px; }
@@ -671,7 +671,7 @@
         .card-wrapper { width: 180px; }
     }
 
-    @media (min-width: 1025px) {
+    @@media (min-width: 1025px) {
         .details-backdrop { max-height: 600px; }
         .details-content h1 { font-size: 46px; }
         .details-content .sinopse { font-size: 17px; max-width: 900px; }
@@ -680,7 +680,7 @@
     }
 
     .details-page { animation: fadeIn 0.4s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
     /* Header Override Fix */
     .header {

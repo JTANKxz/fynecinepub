@@ -8,8 +8,20 @@
         $appName = $settings->app_name ?? 'FYNECINE';
         $overviewSnippet = $episode->overview ? Str::limit($episode->overview, 120) : '';
         $metaDescription = "Assistir {$serie->name} Temporada {$season->season_number} Episódio {$episode->episode_number} online grátis dublado e legendado. {$overviewSnippet}";
-        $posterImage = $episode->still_path ? 'https://image.tmdb.org/t/p/w500' . $episode->still_path : ($serie->poster_path ? 'https://image.tmdb.org/t/p/w500' . $serie->poster_path : asset('img/no-poster.jpg'));
-        $backdropImage = $episode->still_path ? 'https://image.tmdb.org/t/p/w1280' . $episode->still_path : ($serie->backdrop_path ? 'https://image.tmdb.org/t/p/w1280' . $serie->backdrop_path : asset('img/no-backdrop.jpg'));
+        $normalizeImage = function ($value, $size = null) {
+            if (empty($value)) {
+                return null;
+            }
+
+            if (str_starts_with($value, 'http://') || str_starts_with($value, 'https://')) {
+                return $value;
+            }
+
+            $base = 'https://image.tmdb.org/t/p';
+            return $size ? $base . '/' . $size . $value : $base . $value;
+        };
+        $posterImage = $normalizeImage($episode->still_path, 'w500') ?: ($normalizeImage($serie->poster_path, 'w500') ?: asset('img/no-poster.jpg'));
+        $backdropImage = $normalizeImage($episode->still_path, 'w1280') ?: ($normalizeImage($serie->backdrop_path, 'w1280') ?: asset('img/no-backdrop.jpg'));
         
         $nameLower = strtolower($serie->name);
     @endphp
@@ -573,6 +585,18 @@
 @section('content')
     @php
         $settings = \App\Models\AppConfig::getSettings();
+        $normalizeImage = function ($value, $size = null) {
+            if (empty($value)) {
+                return null;
+            }
+
+            if (str_starts_with($value, 'http://') || str_starts_with($value, 'https://')) {
+                return $value;
+            }
+
+            $base = 'https://image.tmdb.org/t/p';
+            return $size ? $base . '/' . $size . $value : $base . $value;
+        };
         $autoEmbedUrl = null;
         if($settings->is_autoembed_active && $serie->tmdb_id && $serie->use_autoembed && $season->use_autoembed) {
             $autoEmbedUrl = str_replace(
@@ -582,7 +606,7 @@
             );
         }
         
-        $backdrop = $episode->still_path ? 'https://image.tmdb.org/t/p/original' . $episode->still_path : ($serie->backdrop_path ? 'https://image.tmdb.org/t/p/original' . $serie->backdrop_path : asset('img/no-backdrop.jpg'));
+        $backdrop = $normalizeImage($episode->still_path, 'original') ?: ($normalizeImage($serie->backdrop_path, 'original') ?: asset('img/no-backdrop.jpg'));
     @endphp
 
     <!-- ===== DETAILS PAGE ===== -->
@@ -596,7 +620,7 @@
             <div class="details-content">
                 <span class="badge">📺 S{{ $season->season_number }} E{{ $episode->episode_number }}</span>
                 <h2 class="serie-nome">{{ $serie->name }}</h2>
-                <h1>{{ $episode->name }}</h1>
+                <h1>{{ $episode->name ?: 'Episódio ' . $episode->episode_number }}</h1>
                 <div class="meta">
                     <span>{{ $episode->duration ? $episode->duration . ' min' : 'Duração indisponível' }}</span>
                 </div>
@@ -638,15 +662,25 @@
                     <div class="scroll-horizontal">
                         @foreach($otherEpisodes as $ep)
                             @php
-                                $epImage = $ep->still_path ? 'https://image.tmdb.org/t/p/w300' . $ep->still_path : ($serie->backdrop_path ? 'https://image.tmdb.org/t/p/w300' . $serie->backdrop_path : asset('img/no-backdrop.jpg'));
+                                $epTitle = $ep->name ?: 'Episódio ' . $ep->episode_number;
+                                $epOverview = $ep->overview ?: 'Sinopse não disponível para este episódio.';
+                                $epImage = $normalizeImage($ep->still_path, 'w300') ?: ($normalizeImage($serie->backdrop_path, 'w300') ?: asset('img/no-backdrop.jpg'));
                                 $epUrl = route('frontend.episode', [$serie->slug, $season->season_number, $ep->episode_number]);
                                 $isActive = $ep->id == $episode->id;
                             @endphp
                             <div class="card-wrapper {{ $isActive ? 'active' : '' }}" onclick="window.location.href='{{ $epUrl }}'">
-                                <div class="card">
+                                <div class="card"
+                                     data-titulo="Ep. {{ $ep->episode_number }} - {{ $epTitle }}"
+                                     data-ano="Temporada {{ $season->season_number }}"
+                                     data-nota="{{ (float) ($serie->rating ?? 0) }}"
+                                     data-duracao="{{ (int) ($ep->duration ?? 0) }}"
+                                     data-img="{{ $epImage }}"
+                                     data-backdrop="{{ $epImage }}"
+                                     data-sinopse="{{ $epOverview }}"
+                                     data-url="{{ $epUrl }}">
                                     <div class="card-img" style="background-image: url('{{ $epImage }}')"></div>
                                 </div>
-                                <div class="card-title">Ep. {{ $ep->episode_number }} - {{ $ep->name }}</div>
+                                <div class="card-title">Ep. {{ $ep->episode_number }} - {{ $epTitle }}</div>
                             </div>
                         @endforeach
                     </div>
