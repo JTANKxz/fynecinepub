@@ -10,8 +10,8 @@
     @yield('seo')
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "SiteNavigationElement",
+      "@@context": "https://schema.org",
+      "@@type": "SiteNavigationElement",
       "name": [
         "Início",
         "Filmes e Séries (Catálogo)",
@@ -169,7 +169,7 @@
             color: #a855f7;
         }
 
-        @media (max-width: 480px) {
+        @@media (max-width: 480px) {
             .search-input.open {
                 width: 130px;
                 padding: 0 12px;
@@ -331,7 +331,7 @@
             border-color: #7c3aed !important;
         }
 
-        @media (max-width: 480px) {
+        @@media (max-width: 480px) {
             .floating-card {
                 width: 280px;
             }
@@ -366,7 +366,7 @@
             color: #7c3aed;
             animation: spin 1s linear infinite;
         }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @@keyframes spin { 100% { transform: rotate(360deg); } }
 
     </style>
     @yield('styles')

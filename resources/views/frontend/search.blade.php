@@ -107,7 +107,7 @@
         padding-bottom: 10px;
     }
 
-    @media (max-width: 600px) {
+    @@media (max-width: 600px) {
         .catalogo-grid {
             grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             gap: 14px 10px;
@@ -127,13 +127,13 @@
             font-size: 16px;
         }
     }
-    @media (min-width: 601px) {
+    @@media (min-width: 601px) {
         .catalogo-grid {
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 24px 18px;
         }
     }
-    @media (min-width: 1025px) {
+    @@media (min-width: 1025px) {
         .catalogo-grid {
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 28px 20px;
@@ -156,7 +156,7 @@
     .filtro-overlay.active {
         display: flex;
     }
-    @keyframes fadeOverlay { from { opacity: 0; } to { opacity: 1; } }
+    @@keyframes fadeOverlay { from { opacity: 0; } to { opacity: 1; } }
 
     .filtro-menu {
         background: #0a0a0a;
@@ -176,7 +176,7 @@
     .filtro-overlay.active .filtro-menu {
         transform: translateX(0);
     }
-    @media (max-width: 600px) {
+    @@media (max-width: 600px) {
         .filtro-menu { width: 280px; padding: 20px 16px 24px; }
         .opcoes-scroll { max-height: 100px; }
     }

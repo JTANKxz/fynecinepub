@@ -115,7 +115,7 @@
             list-style: none;
         }
 
-        @media (max-width: 768px) {
+        @@media (max-width: 768px) {
             .nav-links { display: none; }
         }
 
@@ -141,7 +141,7 @@
             margin-bottom: 3rem;
         }
 
-        @media (max-width: 768px) {
+        @@media (max-width: 768px) {
             .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
         }
 

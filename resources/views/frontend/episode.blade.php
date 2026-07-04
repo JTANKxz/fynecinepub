@@ -30,16 +30,16 @@
 
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "TVEpisode",
+      "@@context": "https://schema.org",
+      "@@type": "TVEpisode",
       "name": "{{ $episode->name }}",
       "episodeNumber": "{{ $episode->episode_number }}",
       "partOfSeason": {
-        "@type": "TVSeason",
+        "@@type": "TVSeason",
         "seasonNumber": "{{ $season->season_number }}"
       },
       "partOfSeries": {
-        "@type": "TVSeries",
+        "@@type": "TVSeries",
         "name": "{{ $serie->name }}"
       },
       "image": "{{ $posterImage }}",
@@ -220,6 +220,9 @@
     .action-icons button:hover {
         color: #a855f7;
     }
+    .action-icons button:hover .label {
+        color: #a855f7;
+    }
     .action-icons button .label {
         font-size: 10px;
         color: #8a94a6;
@@ -340,7 +343,7 @@
         display: flex;
     }
 
-    @keyframes fadeInModal {
+    @@keyframes fadeInModal {
         from { opacity: 0; transform: scale(0.95); }
         to { opacity: 1; transform: scale(1); }
     }
@@ -501,7 +504,7 @@
     }
 
     /* Responsividade geral */
-    @media (max-width: 600px) {
+    @@media (max-width: 600px) {
         .details-backdrop {
             height: 50vh;
             min-height: 280px;
@@ -535,7 +538,7 @@
         .relacionados { padding: 0 0 4px 0; }
     }
 
-    @media (min-width: 601px) {
+    @@media (min-width: 601px) {
         .action-icons { gap: 28px; }
         .btn-assistir-full { width: auto; min-width: 200px; }
         .details-content-wrapper { padding-left: 40px; padding-right: 40px; }
@@ -544,7 +547,7 @@
         .card-wrapper { width: 180px; }
     }
 
-    @media (min-width: 1025px) {
+    @@media (min-width: 1025px) {
         .details-backdrop { max-height: 600px; }
         .details-content h1 { font-size: 38px; }
         .details-content h2.serie-nome { font-size: 24px; }
@@ -554,7 +557,7 @@
     }
 
     .details-page { animation: fadeIn 0.4s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
     /* Header Override Fix */
     .header {
@@ -622,8 +625,9 @@
 
                 <!-- Ações com ícones -->
                 <div class="action-icons">
-                    <button><i class="fas fa-comment"></i><span class="label">Comentar</span></button>
-                    <button><i class="fas fa-plus"></i><span class="label">Lista</span></button>
+                    {{-- <button><i class="fas fa-comment"></i><span class="label">Comentar</span></button> --}}
+                    {{-- Minha Lista - em desenvolvimento --}}
+                    {{-- <button><i class="fas fa-plus"></i><span class="label">Lista</span></button> --}}
                     <button><i class="fas fa-share-alt"></i><span class="label">Compartilhar</span></button>
                 </div>
 
